@@ -16,9 +16,10 @@ class Product(models.Model):
     product_type = models.ForeignKey(
         ProductType,
         on_delete=models.SET_NULL,
+        null = True,
     )
     description = models.TextField()
-    price = models.DecimalField(decimal_places=2)
+    price = models.DecimalField(max_digits=20,decimal_places=2)
 
     def __str__(self):
         return self.name
