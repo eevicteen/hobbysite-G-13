@@ -1,17 +1,16 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+
+from .models import Article, ArticleCategory
 
 def blog_list(request):
-    blog = Blog.objects.all()
-    ctx = {
-        "blogs": blog,
+    categories = ArticleCategory.objects.all().order_by("name") 
+    articles = Article.objects.all().order_by("-creation_date")
 
-    }
-    return render(request, 'blog_list.html', ctx)
-
+    return render(request, "blog_list.html", {
+        "articlecategory": categories,  
+        "articles": articles  
+    })
 
 def blog_details(request, id):
-    blog = Blog.objects.get(id=id)
-    ctx = {
-        "blog": blog
-    }
-    return render(request, 'blog_details.html', ctx)
+    article = Article.objects.get(id=id)
+    return render(request, "blog_details.html", {"article": article})

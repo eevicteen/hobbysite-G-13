@@ -1,19 +1,24 @@
-{% extends 'base.html' %}
-{% load static %}
+{% extends "base.html" %}
 
-{% block title %}{{blog.name}}{% endblock %}
-
+{% block title %}Blog - Hobby Site{% endblock %}
 
 {% block content %}
-<div>
-{{blog.name}}
-</div>
-    <a><br>Blogs:</a>
-    <ul>
-        {% for ingredient in recipe.ingredients.all %}
-            <li>
-            {{ingredient.quantity}} of {{ingredient.ingredient.name}}
-            </li>
-        {% endfor %}
-    </ul>
+<h1>Blog</h1>
+
+{% for category in articlecategory %}
+<h2>Category: {{ category.name }}</h2>
+<a>{{category.description}}</a>
+<ul>
+    {% for article in articles %}
+    {% if article.category == category %}
+    <li>
+        <a href="{% url 'blog:blog_detail' article.id %}">{{ article.title }}</a>
+        <p>Created on: {{ article.creation_date }}</p>
+        <p>Last updated on: {{article.most_recent_update_date}}</p>
+    </li>
+    {% endif %}
+    {% endfor %}
+</ul>
+{% endfor %}
+
 {% endblock %}
