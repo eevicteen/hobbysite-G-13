@@ -19,8 +19,4 @@ class Post(models.Model):
         return self.name
     def get_absolute_url(self):
         return reverse('ledger:recipe-detail', args=[str(self.pk)])
-
-class RecipeIngredient(models.Model):
-    quantity = models.CharField(max_length=101)
-    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE, related_name='recipe')
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='ingredients')
+    
