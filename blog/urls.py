@@ -1,3 +1,4 @@
+"""Direct users to appropriate urls depending on needs."""
 from django.urls import path
 from .views import blog_list, blog_details
 

@@ -1,10 +1,18 @@
+"""Create needed models and their admin."""
+
 from django.contrib import admin
 from .models import Article, ArticleCategory
-# Register your models here.
+
+
 class ArticleCategoryAdmin(admin.ModelAdmin):
+    """Create admin for ArticleCategory."""
+
     model = ArticleCategory
 
+
 class ArticleAdmin(admin.ModelAdmin):
+    """Create admin for Article."""
+
     model = Article
 
 
