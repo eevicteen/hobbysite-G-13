@@ -8,9 +8,10 @@ from .models import ArticleCategory, Article
 class ArticleListView(ListView):
     model = ArticleCategory
     template_name = 'wiki_list.html'
-    context_object_name = 'articles'
+    context_object_name = 'articlecategory'
 
 
 class ArticleDetailView(DetailView):
     model = Article
     template_name = 'wiki_details.html'
+    context_object_name = 'article'

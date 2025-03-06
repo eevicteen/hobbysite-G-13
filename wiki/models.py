@@ -20,7 +20,8 @@ class Article(models.Model):
         ArticleCategory,
         on_delete=models.SET_NULL,
         null=True,
-        blank=True
+        blank=True,
+        related_name="articles"
     )
     entry = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
@@ -30,7 +31,7 @@ class Article(models.Model):
         return self.title
     
     def get_absolute_url(self):
-        return reverse('wiki:article_details', args=[self.id])
+        return reverse('wiki:article_details', args=[self.pk])
 
     class Meta:
         ordering = ['-created_on']

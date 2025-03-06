@@ -11,14 +11,12 @@
 <h2>Category: {{category.name}}</h2>
 <a>{{category.description}}</a>
 <ul>
-    {% for article in articles %}
-    {% if article.category == category %}
+    {% for article in category.articles.all %}
     <li>
         <a href="{% url 'wiki:article_details' article.id %}">{{article.title}}</a>
         <p>Created on {{article.created_on}}</p>
         <p>Last updated on {{article.updated_on}}</p>
     </li>
-    {% endif %}
     {% endfor %}
 </ul>
 {% endfor %}
