@@ -10,6 +10,6 @@ app_name = 'wiki'
 
 
 urlpatterns = [
-    path('wiki/articles/', ArticleListView.as_view(), name="article_list"),
-    path('wiki/article/<int:id>/', ArticleDetailView.as_view(), name="article_details"),
+    path('articles/', ArticleListView.as_view(), name="article_list"),
+    path('article/<int:id>/', ArticleDetailView.as_view(), name="article_details"),
 ]
