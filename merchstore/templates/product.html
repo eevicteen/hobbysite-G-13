@@ -6,12 +6,13 @@
 {% endblock %}
 
 {% block content %}
+    <h1>MERCHSTORE</h1>
+    <h2>Product Details</h2>
     {{product.name}}
-    <br>
-    DETAILS:
     <ul>   
-        <li>Price: {{product.price}}</li> 
-        <li>Description: {{product.description}}</li>        
-        <li>Product type: {{product.product_type}}</li>
+        <li>Price: ₱{{product.price}}</li> 
+        <li>Product type: {{product.product_type}}</li>    
     </ul>
+    Description:
+    <p>{{product.description}}</p>
 {% endblock %}

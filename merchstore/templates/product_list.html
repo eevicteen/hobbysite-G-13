@@ -4,9 +4,13 @@
 {% block title %} Product List {% endblock %}
 
 {% block content %}
+    <h1>MERCHSTORE</h1>
+    <h2>Products for Sale:</h2>
     <ul>
-        {% for product in object_list %}
-        <li>Link: <a href ="{{product.get_absolute_url}}">{{product}}</a></li>
+        {% for product in object_list %} 
+        <li><a href ="{{product.get_absolute_url}}">{{product}}</a> ₱{{product.price}}</li>
+        Product Type: {{product.product_type}} 
+        
         {% endfor %}
     </ul>
 {% endblock %}
