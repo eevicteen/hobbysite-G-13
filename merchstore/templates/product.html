@@ -1,18 +1,18 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %} 
-   {{name}}
+{% block title %}
+{{name}}
 {% endblock %}
 
 {% block content %}
-    <h1>MERCHSTORE</h1>
-    <h2>Product Details</h2>
-    {{product.name}}
-    <ul>   
-        <li>Price: ₱{{product.price}}</li> 
-        <li>Product type: {{product.product_type}}</li>    
-    </ul>
-    Description:
-    <p>{{product.description}}</p>
+<h1>MERCHSTORE</h1>
+<h2>Product Details</h2>
+<h3>{{product.name}}</h3>
+<ul>
+    <li>Price: ₱{{product.price}}</li>
+    <li>Product type: {{product.product_type}}</li>
+</ul>
+<h3>Description:</h3>
+<p>{{product.description}}</p>
 {% endblock %}

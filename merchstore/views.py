@@ -1,14 +1,20 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.generic.detail import DetailView
-from django.views.generic.list import ListView
 
-from .models import Product
+from .models import Product, ProductType
 
 
-class ProductListView(ListView):
-    model = Product
-    template_name = "product_list.html"
+def product_list(request):
+    products = Product.objects.all()
+    product_types = ProductType.objects.all()
+
+    ctx = {
+        "products": products,
+        "product_types": product_types
+    }
+
+    return render(request, "product_list.html", ctx)
 
 
 class ProductDetailView(DetailView):

@@ -4,13 +4,18 @@
 {% block title %} Product List {% endblock %}
 
 {% block content %}
-    <h1>MERCHSTORE</h1>
-    <h2>Products for Sale:</h2>
-    <ul>
-        {% for product in object_list %} 
-        <li><a href ="{{product.get_absolute_url}}">{{product}}</a> ₱{{product.price}}</li>
-        Product Type: {{product.product_type}} 
-        
-        {% endfor %}
-    </ul>
+<h1>MERCHSTORE</h1>
+<h2>Products for Sale:</h2>
+<ul>
+    {% for product_type in product_types %}
+    <h3>Product Type: {{product_type.name}} </h3>
+
+    {% for product in products %}
+    {% if product_type == product.product_type %}
+    <li><a href="{{product.get_absolute_url}}">{{product.name}}</a> ₱{{product.price}}</li>
+    {% endif %}
+
+    {% endfor %}
+    {% endfor %}
+</ul>
 {% endblock %}
