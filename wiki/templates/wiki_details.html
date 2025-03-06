@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}{{article.title}}{% endblock %}
+
+{% block content %}
+    <h1>{{article.title}}</h1>
+    <p>Category: {{article.category.name}}</p>
+    <p>Created on {{article.created_on}}</p>
+    <p>Last updated on {{article.updated_on}}</p>
+    <p>{{article.entry}}</p>
+    <a href="{% url 'wiki:wiki_list' %}">Return to Articles</a>
+{% endblock %}
