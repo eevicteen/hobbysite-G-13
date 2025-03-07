@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Product List {% endblock %}
+
+{% block content %}
+<h1>COMMISSION DETAIL</h1>
+<ul>
+    <a href="{% url 'commissions:commissions-list' %}">Commission List</a>
+    <p>DESCRIPTION: <br> {{commission.description}}</p>
+    <p>People required: <br> {{commission.people_required}}</p>
+    <p>Created on: <br> {{commission.created_on}}</p>
+    <p>Updated on: <br> {{commission.updated_on}}</p>
+
+    {% for comment in comments %}
+        <li>{{comment.entry}}</li>
+        <li>Created on: {{comment.created_on}}</li>
+        <li>Updated on: {{comment.updated_on}}</li>
+        <br>
+    {% endfor %}
+</ul>
+{% endblock %}
