@@ -1,7 +1,6 @@
 """Create models ArticleCategory & Article with appropriate fields."""
 
 from django.db import models
-from django.urls import reverse
 
 
 class ArticleCategory(models.Model):
