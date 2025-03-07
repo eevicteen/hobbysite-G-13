@@ -1,3 +1,5 @@
+"""Create app Forum."""
+
 from django.apps import AppConfig
 
 

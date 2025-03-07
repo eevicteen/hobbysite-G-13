@@ -5,13 +5,13 @@ from .models import Post, PostCategory
 
 
 class PostCategoryAdmin(admin.ModelAdmin):
-    """Create admin for ArticleCategory."""
+    """Create admin for PostCategory."""
 
     model = PostCategory
 
 
 class PostAdmin(admin.ModelAdmin):
-    """Create admin for Article."""
+    """Create admin for Post."""
 
     model = Post
 
