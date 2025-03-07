@@ -13,7 +13,7 @@
 <ul>
     {% for article in category.articles.all %}
     <li>
-        <a href="{% url 'wiki:article_details' article.id %}">{{article.title}}</a>
+        <a href="{{ article.get_absolute_url }}">{{article.title}}</a>
         <p>Created on {{article.created_on}}</p>
         <p>Last updated on {{article.updated_on}}</p>
     </li>
