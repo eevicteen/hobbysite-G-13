@@ -14,10 +14,17 @@ class PostCategory(models.Model):
 
 class Post(models.Model):
     title = models.CharField(max_length=255)
-    category = models.ForeignKey(PostCategory, on_delete=models.SET_NULL, related_name='recipe')
+    category = models.ForeignKey(PostCategory, on_delete=models.SET_NULL, null=True)
+    entry = models.TextField()
+    creation_date = models.DateTimeField(auto_now_add=True)
+    most_recent_update_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
     def get_absolute_url(self):
-        return reverse('ledger:recipe-detail', args=[str(self.pk)])
+        return reverse('forum:detail', args=[self.pk])
+    
+    class Meta:
+        """Order the post based on its creation date."""
+        ordering = ["-creation_date"]
     
