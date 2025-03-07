@@ -8,8 +8,9 @@ class PostCategory(models.Model):
     description = models.TextField()
     def __str__(self):
         return self.name
-    def get_absolute_url(self):
-        return reverse('ledger:ingredient-detail', args=[str(self.pk)])
+    class Meta:
+        "Order the post categories alphabetically."
+        ordering = ["name"]
 
 class Post(models.Model):
     title = models.CharField(max_length=255)
