@@ -20,7 +20,7 @@ class Post(models.Model):
     most_recent_update_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.name
+        return self.title
     def get_absolute_url(self):
         return reverse('forum:detail', args=[self.pk])
     
