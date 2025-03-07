@@ -34,10 +34,6 @@ class Article(models.Model):
         """Return the name of the Article itself."""
         return self.title
 
-    def get_absolute_url(self):
-        """Return the url of the article itself."""
-        return reverse('article:detail', args=[self.id])
-
     class Meta:
         """Order the article based on its creation date."""
 
