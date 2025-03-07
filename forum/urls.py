@@ -1,8 +1,8 @@
 from django.urls import path
-# from .views import threads, thread
+from .views import forum_list, forum_details
 
 urlpatterns = [
-    # path('threads', threads, name='list'),
-    # path('thread/<int:pk>', thread, name='recipe1'),
+    path('forum/threads/', forum_list, name='forum_list'),
+    path('forum/threads/<int:id>/', forum_details, name='forum_detail'),
 ]
 app_name = "forum"
