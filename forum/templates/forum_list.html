@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Forum - Hobby Site{% endblock %}
+
+{% block content %}
+<h1>Forum</h1>
+
+{% for category in postcategory %}
+<h2>Category: {{category.name}}</h2>
+<a>{{category.description}}</a>
+<ul>
+    {% for post in posts %}
+    {% if post.category == category %}
+    <li>
+        <h3><a href="{% url 'forum:forum_detail' post.id %}">{{post.title}}</a></h3>
+        <p>Created on: {{post.creation_date}}</p>
+        <p>Last updated on: {{post.most_recent_update_date}}</p>
+    </li>
+    {% endif %}
+    {% endfor %}
+</ul>
+{% endfor %}
+
+{% endblock %}
