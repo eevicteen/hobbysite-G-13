@@ -10,7 +10,16 @@ def register(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
     if form.is_valid():
-        form.save()
+        user = form.save(commit=False)
+        user.set_password(form.cleaned_data['password'])  # 🔒 Hash the password
+        user.save()
+
+        Profile.objects.create(
+                user=user,
+                display_name=user.username,
+                email_address=user.email  
+            )
+        
         return redirect('login')
     ctx = {"form": form }
     return render(request, 'register.html', ctx)
@@ -33,7 +42,7 @@ def profile_update(request, username):
 
     if form.is_valid():
         profile = form.save()
-        profile.user = user
+        profile.user = user 
         profile.save()
         return redirect('user_management:profile-update', username=username)
     
