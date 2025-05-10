@@ -3,7 +3,7 @@
 from django.db import models
 from django.urls import reverse
 
-# Create your models here.
+from user_management.models import Profile
 
 
 class ProductType(models.Model):
@@ -32,8 +32,20 @@ class Product(models.Model):
         on_delete=models.SET_NULL,
         null=True,
     )
+    owner = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE
+    )
     description = models.TextField()
     price = models.DecimalField(max_digits=20, decimal_places=2)
+    stock = models.PositiveIntegerField()
+
+    STATUS_CHOICES = [
+        ('available','Available'),
+         ('on_sale','On sale'), 
+         ('out_of_stock','Out of stock'),
+        ]
+    status = models.CharField(choices=STATUS_CHOICES, default='available')
 
     def __str__(self):
         """Return the name of the Product."""
@@ -49,3 +61,25 @@ class Product(models.Model):
         """Order the products by name."""
 
         ordering = ["name"]
+
+
+class Transaction(models.Model):
+    buyer = models.ForeignKey(
+        Profile,
+        on_delete=models.SET_NULL
+    )
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.SET_NULL
+    )
+    amount = models.PositiveIntegerField()
+
+    STATUS_CHOICES = [
+        ('on_cart','On Cart'),
+        ('to_pay','To Pay'), 
+        ('to_ship','To Ship'),
+        ('to_receive','To Receive'),
+        ('delivered','Delivered'), 
+        ]
+    status = models.CharField(choices=STATUS_CHOICES, default='available')
+    created_on = models.DateTimeField(auto_now_add=True)
