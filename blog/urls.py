@@ -8,4 +8,6 @@ app_name = "blog"
 urlpatterns = [
     path('articles/', blog_list, name='blog_list'),
     path('article/<int:id>/', blog_details, name='blog_detail'),
+    path('article/add/', blog_add, name="blog_create"),
+    path('article/<int:id>/edit', blog_edit, name="blog_edit"),
 ]
