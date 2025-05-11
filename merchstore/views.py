@@ -2,7 +2,6 @@
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
-from django.views.generic.detail import DetailView
 from django.contrib.auth.decorators import login_required
 
 from .models import Product, ProductType, Transaction
@@ -25,20 +24,8 @@ def product_list(request):
 @login_required
 def cart_list(request):
     """Return cart_list html file with apt context."""
-    sellers = set()
-    items_on_cart = Transaction.objects.filter(
-        buyer=request.user.profile,
-        status='on_cart'
-    )
-    for item in items_on_cart:
-        sellers.add(item.product.owner)
 
-    ctx = {
-        "items_on_cart": items_on_cart,
-        "sellers":sellers,
-    }
-
-    return render(request, "cart_list.html", ctx)
+    return render(request, "cart_list.html", get_cart_context(request.user))
 
 
 def product_detail(request, pk):
@@ -135,3 +122,47 @@ def transactions_list(request):
     }
 
     return render(request, "transaction_list.html", ctx)
+
+@login_required
+def edit_cart_item(request,pk):
+    transaction = get_object_or_404(Transaction, pk=pk, buyer=request.user.profile, status='on_cart')
+    product = transaction.product  
+    old_amount = transaction.amount
+    old_stock = product.stock
+    total_product = old_amount + old_stock
+    if request.method == 'POST':
+        form = TransactionForm(request.POST, instance=transaction)
+        if form.is_valid():
+            new_transaction = form.save(commit=False)
+ 
+            if new_transaction.amount > total_product:
+                return render(request, 'cart_list.html', get_cart_context(request.user, f"Cannot add more than {total_product} item(s)."))
+            elif new_transaction.amount == 0:
+                product.stock += old_amount
+                product.save()
+                transaction.delete()
+                return redirect('merchstore:cart-list')
+            
+            product.stock += old_amount - new_transaction.amount
+
+            if product.stock == 0:
+                product.status = 'out_of_stock'
+            else:
+                product.status = 'available'
+
+            product.save()
+            
+            new_transaction.save()
+            return redirect('merchstore:cart-list')
+    else:
+        form = TransactionForm(instance=transaction)
+    
+    return render(request, 'cart_edit.html', {'form': form, 'transaction': transaction, 'product': product})
+
+def get_cart_context(user, error_message=None):
+    items_on_cart = Transaction.objects.filter(buyer=user.profile, status='on_cart')
+    sellers = set(item.product.owner for item in items_on_cart)
+    ctx = {'items_on_cart': items_on_cart, 'sellers': sellers}
+    if error_message:
+        ctx['error_message'] = error_message
+    return ctx

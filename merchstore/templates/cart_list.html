@@ -5,6 +5,7 @@
 
 {% block content %}
 <h1>MERCHSTORE</h1>
+<h2>{{error_message}}</h2>
 Logged in user: {{user.username}}
 <p><a href="{% url 'merchstore:product-list' %}">View Items</a></p>
 Items in Cart:<br>
@@ -12,7 +13,8 @@ Items in Cart:<br>
 <p>Seller: {{seller.display_name}}</p>
 {% for item in items_on_cart %}
 {% if item.product.owner == seller %}
-<li>{{item.product.name}} -- QTY: {{item.amount}} </li>
+<li>{{item.product.name}} -- QTY: {{item.amount}}<a href="{% url 'merchstore:cart-item-edit' pk=item.pk %}">Edit</a> </li>
+    
 {% endif %}
 {% endfor %}
 {% endfor %}
