@@ -24,8 +24,24 @@ def product_list(request):
 @login_required
 def cart_list(request):
     """Return cart_list html file with apt context."""
+    sellers = set()
+    items_on_cart = Transaction.objects.filter(
+        buyer=request.user.profile,
+        status='on_cart'
+    )
 
-    return render(request, "cart_list.html", get_cart_context(request.user))
+    total_price = 0
+    for item in items_on_cart:
+        sellers.add(item.product.owner)
+        total_price += item.amount * item.product.price
+
+    ctx = {
+        "items_on_cart": items_on_cart,
+        "sellers": sellers,
+        "total_price": total_price,
+    }
+
+    return render(request, "cart_list.html", ctx)
 
 
 def product_detail(request, pk):
@@ -109,16 +125,21 @@ def edit_product(request,pk):
 @login_required
 def transactions_list(request):
     buyers= set()
+    projected_earnings = 0
     transactions_sold = Transaction.objects.filter(
         product__owner = request.user.profile,
         status='on_cart'
     )
+    
     for item in transactions_sold:
         buyers.add(item.buyer)
+        projected_earnings += item.amount * item.product.price
+    
 
     ctx = {
         "transactions_sold": transactions_sold,
         "buyers":buyers,
+        "projected_earnings": projected_earnings,
     }
 
     return render(request, "transaction_list.html", ctx)

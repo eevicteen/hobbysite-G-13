@@ -9,15 +9,13 @@
 Logged in user: {{user.username}}
 <p><a href="{% url 'merchstore:product-list' %}">View Items</a></p>
 <p><a href="{% url 'merchstore:cart-list' %}">View Cart</a></p>
+<p>Total Value: {{projected_earnings}}</p>
 <br> Transactions Made as Seller:
 {% for buyer in buyers %}
 <p>Buyer: {{buyer.display_name}}</p>
 {% for item in transactions_sold %}
 {% if item.buyer == buyer %}
-<li>{{item.product.name}}</li>
-<li>{{item.amount}}</li>
-<li>{{item.status}}</li>
-<li>{{item.created_on}}</li>
+<li>{{item.product.name}} -- QTY: {{item.amount}} -- STATUS: {{item.status}} -- CREATED ON: {{item.created_on}}
 {% endif %}
 {% endfor %}
 {% endfor %}

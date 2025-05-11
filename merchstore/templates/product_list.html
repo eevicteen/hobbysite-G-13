@@ -9,6 +9,7 @@
 Logged in user: {{user.username}}
 <p><a href="{% url 'merchstore:product-create' %}">Create New Product</a></p>
 <p><a href="{% url 'merchstore:cart-list' %}">View Cart</a></p>
+
 <h2>User's Products:</h2>
     <ul>
         {% for product_type in product_types %}
