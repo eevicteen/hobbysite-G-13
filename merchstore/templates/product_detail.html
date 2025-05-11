@@ -11,11 +11,12 @@
 <h2>Product Details</h2>
 <h3>{{product.name}}</h3>
 <p><a href="{% url 'merchstore:product-list' %}">View Items</a></p>
+<p><a href="{% url 'merchstore:cart-list' %}">View Cart</a></p>
 <ul>
     <li>Price: ₱{{product.price}}</li>
     <li>Product type: {{product.product_type}}</li>
     <li>Stock: {{product.stock}}</li>
-    <li>Status: {{product.status}}</li>
+    <li>Status: {{product.get_status_display}}</li>
 </ul>
 
 {% if user.profile != product.owner %}

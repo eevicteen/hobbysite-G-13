@@ -5,10 +5,15 @@
 
 {% block content %}
 <h1>MERCHSTORE</h1>
-    Logged in user: {{user.username}}
-    <p><a href="{% url 'merchstore:product-list' %}">View Items</a></p>
-    Items in Cart:<br>
-    {% for item in items_on_cart %}
-    <li>{{item.product.name}} -- QTY: {{item.amount}}  </li>
-    {% endfor %}
+Logged in user: {{user.username}}
+<p><a href="{% url 'merchstore:product-list' %}">View Items</a></p>
+Items in Cart:<br>
+{% for seller in sellers %}
+<p>Seller: {{seller.display_name}}</p>
+{% for item in items_on_cart %}
+{% if item.product.owner == seller %}
+<li>{{item.product.name}} -- QTY: {{item.amount}} </li>
+{% endif %}
+{% endfor %}
+{% endfor %}
 {% endblock %}

@@ -25,13 +25,17 @@ def product_list(request):
 @login_required
 def cart_list(request):
     """Return cart_list html file with apt context."""
+    sellers = set()
     items_on_cart = Transaction.objects.filter(
         buyer=request.user.profile,
         status='on_cart'
     )
+    for item in items_on_cart:
+        sellers.add(item.product.owner)
 
     ctx = {
-        "items_on_cart": items_on_cart
+        "items_on_cart": items_on_cart,
+        "sellers":sellers,
     }
 
     return render(request, "cart_list.html", ctx)
@@ -117,16 +121,13 @@ def edit_product(request,pk):
 
 @login_required
 def transactions_list(request):
-    buyers= {}
-    buyers = set(buyers)
+    buyers= set()
     transactions_sold = Transaction.objects.filter(
         product__owner = request.user.profile,
         status='on_cart'
     )
     for item in transactions_sold:
         buyers.add(item.buyer)
-
-
 
     ctx = {
         "transactions_sold": transactions_sold,

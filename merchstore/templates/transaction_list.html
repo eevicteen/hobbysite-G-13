@@ -5,19 +5,21 @@
 
 {% block content %}
 <h1>MERCHSTORE</h1>
-    <h2>{{error_message}}</h2>
-    Logged in user: {{user.username}}
-    <br> Transactions Made as Seller:
-    {% for buyer in buyers %}
-
-        {% for item in transactions_sold %}
-        {% if item.buyer == buyer %}
-            <li>{{item.product.name}}</li>
-            <li>{{item.amount}}</li>
-            <li>{{item.status}}</li>
-            <li>{{item.created_on}}</li>
-            {% endif %}
-        {% endfor %}
-    {% endfor %}
+<h2>{{error_message}}</h2>
+Logged in user: {{user.username}}
+<p><a href="{% url 'merchstore:product-list' %}">View Items</a></p>
+<p><a href="{% url 'merchstore:cart-list' %}">View Cart</a></p>
+<br> Transactions Made as Seller:
+{% for buyer in buyers %}
+<p>Buyer: {{buyer.display_name}}</p>
+{% for item in transactions_sold %}
+{% if item.buyer == buyer %}
+<li>{{item.product.name}}</li>
+<li>{{item.amount}}</li>
+<li>{{item.status}}</li>
+<li>{{item.created_on}}</li>
+{% endif %}
+{% endfor %}
+{% endfor %}
 </ul>
 {% endblock %}

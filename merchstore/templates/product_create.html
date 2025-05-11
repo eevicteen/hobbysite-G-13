@@ -2,6 +2,8 @@
 {% block title %}Create New Product{% endblock %}
 
 {% block content %}
+<p><a href="{% url 'merchstore:product-list' %}">View Items</a></p>
+    <p><a href="{% url 'merchstore:cart-list' %}">View Cart</a></p>
 
     <h2>Create Product: </h2>
     <form method="POST" enctype="multipart/form-data">
