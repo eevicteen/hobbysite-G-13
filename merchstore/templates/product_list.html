@@ -5,17 +5,31 @@
 
 {% block content %}
 <h1>MERCHSTORE</h1>
+    <h2>{{error_message}}</h2>
+    Logged in user: {{user.username}}
+    <a href="{% url 'merchstore:product-create' %}">Create New Product</a>
+    <br>
+    <h2>User's Products:<h2>
+    {% for product_type in product_types %}
+    <h3>Product Type: {{product_type.name}} </h3>
+
+    {% for product in products %}
+        {% if product_type == product.product_type and product.owner == user.profile %}
+            <li><a href="{{product.get_absolute_url}}">{{product.name}}</a> ₱{{product.price}} In Stock: {{product.stock}}</li>
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+
 <h2>Products for Sale:</h2>
 <ul>
     {% for product_type in product_types %}
     <h3>Product Type: {{product_type.name}} </h3>
 
     {% for product in products %}
-    {% if product_type == product.product_type %}
-    <li><a href="{{product.get_absolute_url}}">{{product.name}}</a> ₱{{product.price}}</li>
-    {% endif %}
-
-    {% endfor %}
+        {% if product_type == product.product_type and product.owner != user.profile %}
+            <li><a href="{{product.get_absolute_url}}">{{product.name}}</a> ₱{{product.price}} In Stock: {{product.stock}}</li>
+            {% endif %}
+        {% endfor %}
     {% endfor %}
 </ul>
 {% endblock %}

@@ -34,18 +34,20 @@ class Product(models.Model):
     )
     owner = models.ForeignKey(
         Profile,
-        on_delete=models.CASCADE
+        on_delete=models.SET_NULL,
+        null=True,
     )
     description = models.TextField()
     price = models.DecimalField(max_digits=20, decimal_places=2)
-    stock = models.PositiveIntegerField()
+    stock = models.PositiveIntegerField(default=0)
 
     STATUS_CHOICES = [
-        ('available','Available'),
-         ('on_sale','On sale'), 
-         ('out_of_stock','Out of stock'),
-        ]
-    status = models.CharField(choices=STATUS_CHOICES, default='available')
+        ('available', 'Available'),
+        ('on_sale', 'On sale'),
+        ('out_of_stock', 'Out of stock'),
+    ]
+    status = models.CharField(
+        max_length=20, choices=STATUS_CHOICES, default='available')
 
     def __str__(self):
         """Return the name of the Product."""
@@ -66,20 +68,22 @@ class Product(models.Model):
 class Transaction(models.Model):
     buyer = models.ForeignKey(
         Profile,
-        on_delete=models.SET_NULL
+        on_delete=models.SET_NULL,
+        null=True
     )
     product = models.ForeignKey(
         Product,
-        on_delete=models.SET_NULL
+        on_delete=models.SET_NULL,
+        null=True
     )
-    amount = models.PositiveIntegerField()
+    amount = models.PositiveIntegerField(default=0)
 
     STATUS_CHOICES = [
-        ('on_cart','On Cart'),
-        ('to_pay','To Pay'), 
-        ('to_ship','To Ship'),
-        ('to_receive','To Receive'),
-        ('delivered','Delivered'), 
-        ]
-    status = models.CharField(choices=STATUS_CHOICES, default='available')
+        ('on_cart', 'On Cart'),
+        ('to_pay', 'To Pay'),
+        ('to_ship', 'To Ship'),
+        ('to_receive', 'To Receive'),
+        ('delivered', 'Delivered'),
+    ]
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES)
     created_on = models.DateTimeField(auto_now_add=True)

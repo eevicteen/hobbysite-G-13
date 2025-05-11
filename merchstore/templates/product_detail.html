@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+{{name}}
+{% endblock %}
+
+{% block content %}
+<h1>MERCHSTORE</h1>
+<h2>{{error_message}}</h2>
+<h2>Product Details</h2>
+<h3>{{product.name}}</h3>
+<p><a href="{% url 'merchstore:product-list' %}">View Items</a></p>
+<ul>
+    <li>Price: ₱{{product.price}}</li>
+    <li>Product type: {{product.product_type}}</li>
+    <li>Stock: {{product.stock}}</li>
+    <li>Status: {{product.status}}</li>
+</ul>
+
+{% if user.profile != product.owner %}
+    <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form }}
+            {% if product.stock == 0 %}
+            <button  type="submit" disabled>Add to Cart</button>
+            {% else %}
+            <button type="submit" value ="submit">Add to Cart</button>
+            {% endif %}
+        </form>
+{% else %}
+     <p><a href="{% url 'merchstore:product-edit' product.pk %}">Edit Product</a></p>   
+{% endif %}
+<h3>Description:</h3>
+<p>{{product.description}}</p>
+{% endblock %}
