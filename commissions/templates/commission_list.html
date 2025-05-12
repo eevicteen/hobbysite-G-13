@@ -5,6 +5,21 @@
 
 {% block content %}
 <h1>COMMISSIONS</h1>
+{% if user.is_authenticated %}
+
+    <h2>Created Commissions {{user.profile}}</h2>
+    <ul>
+        {% for commission in object_list %}
+            {% if user.profile ==  Commission.author%} 
+                <h3><a href="{{commission.get_absolute_url}}">{{commission.title}}</a></h3>
+                <li>Created on: {{commission.created_on}}</li>     
+                <br>
+            {% endif %}
+
+        {% endfor %}
+    </ul>
+{% endif %}
+ 
 <h2>All Commissions</h2>
 <ul>
 
