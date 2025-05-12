@@ -1,26 +1,45 @@
 {% extends "base.html" %}
-
 {% load static %}
-
 {% block title %}Blog - Hobby Site{% endblock %}
 
 {% block content %}
 <h1>Blog</h1>
 
-{% for category in articlecategory %}
-<h2>Category: {{category.name}}</h2>
-<a>{{category.description}}</a>
-<ul>
-    {% for article in articles %}
-    {% if article.category == category %}
+{% if user.is_authenticated %}
+  <h2>Your Articles:</h2>
+  <ul>
+    {% for article in user_articles %}
     <li>
-        <a href="{% url 'blog:blog_detail' article.id %}">{{article.title}}</a>
-        <p>Created on: {{article.creation_date}}</p>
-        <p>Last updated on: {{article.most_recent_update_date}}</p>
+      <a href="{% url 'blog:blog_detail' article.id %}">{{ article.title }}</a>
     </li>
-    {% endif %}
+    {% empty %}
+    <li>You haven't written any articles yet.</li>
     {% endfor %}
-</ul>
+  </ul>
+{% endif %}
+
+{% if user.is_authenticated %}
+<h2>All Articles by Category</h2>
+{% for category, articles in categorized_articles.items %}
+
+  <h3>Category: {{ category.name }}</h3>
+  <p>{{ category.description }}</p>
+  <ul>
+    {% for article in articles %}
+    {% if article.author.display_name != user.profile.display_name %}
+    <li>
+      <a href="{% url 'blog:blog_detail' article.id %}">{{ article.title }}</a>
+    </li>
+      {% endif %}
+    {% empty %}
+    <li>No articles in this category.</li>
+    {% endfor %}
+  </ul>
 {% endfor %}
+{% endif %}
+
+{% if user.is_authenticated %}
+  <p><a href="{% url 'blog:add_article' %}">Create New Article</a></p>
+{% endif %}
 
 {% endblock %}

@@ -4,7 +4,6 @@ from django.db import models
 from user_management.models import Profile
 
 
-
 class ArticleCategory(models.Model):
     """Create ArticleCategory with appropriate field, sorted alphabetically."""
 
@@ -31,7 +30,7 @@ class Article(models.Model):
     entry = models.TextField()
     creation_date = models.DateTimeField(auto_now_add=True)
     most_recent_update_date = models.DateTimeField(auto_now=True)
-    header_image = models.ImageField(upload_to='article_headers/')
+    header_image = models.ImageField(upload_to='article_headers/', null=False)
 
     def __str__(self):
         """Return the name of the Article itself."""
@@ -42,17 +41,23 @@ class Article(models.Model):
 
         ordering = ["-creation_date"]
 
+
 class Comment(models.Model):
+    """Create Comment model with appropriate field, sorted by date."""
     author = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True)
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     entry = models.TextField()
     most_recent_update_date = models.DateTimeField(auto_now=True)
     creation_date = models.DateTimeField(auto_now_add=True)
 
-
     class Meta:
         """Order the comments based on its creation date."""
         ordering = ["creation_date"]
 
-    def __str__(self):
-        return f"Comment by {self.author} on {self.article}"
+
+class ArticleImage(models.Model):
+    """Create ArticleImage model with appropriate fields."""
+    image = models.ImageField(upload_to='recipe_images/', null=False)
+    description = models.TextField(max_length=255)
+    article = models.ForeignKey(
+        Article, on_delete=models.CASCADE, related_name='images')

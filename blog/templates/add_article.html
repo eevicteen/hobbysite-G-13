@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} 
+{{name}}
+{% endblock %}
+
+{% block heading %}Add Article{% endblock %}
+
+{% block content %}        
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form}}
+    <button type="submit", value="submit">submit</button>
+</form>
+    
+{% endblock %}
