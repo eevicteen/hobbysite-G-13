@@ -54,8 +54,8 @@ class Comments(models.Model):
         ordering = ["-created_on"]
 
 class Job(models.Model):
-    """Create Jobs with appropriate field, sorted by status (Open > Full), manpower required, 
-    in descending order, then role, in ascending order"""
+    """Create Jobs with appropriate field, sorted by status (Open > Full), manpower 
+    required, in descending order, then role, in ascending order"""
     commission = models.ForeignKey(
         Commission,
         on_delete=models.CASCADE,
@@ -69,6 +69,10 @@ class Job(models.Model):
     status = models.CharField(
         max_length=20, choices=STATUS_CHOICES, default='a_open')
     class Meta:
-        """Orders Jobs by status (Open > Full), manpower required, in descending order, then role, in ascending order"""
+        """Orders Jobs by status (Open > Full), manpower required, 
+        in descending order, then role, in ascending order"""
         
         ordering = ["status","-manpower","role"]
+
+class JobApplication(models.Model):
+    job = models.ForeignKey(Job, on_delete=models.CASCADE,)
