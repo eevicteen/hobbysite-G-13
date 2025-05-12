@@ -43,7 +43,7 @@ class Comments(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
-        """Orders Comments by time created ascendingly."""
+        """Orders Comments by time created descendingly."""
         
         ordering = ["-created_on"]
 
