@@ -19,6 +19,9 @@
     </ul>
     <h2>Applied Commissions {{user.profile}}</h2>
     <ul>
+        {% for jobs in object_list %}
+            <h1>dis is a test</h1>
+        {% endfor %}
         {% for commission in object_list %}
             {% if user.profile ==  commission.%} 
                 <h3><a href="{{commission.get_absolute_url}}">{{commission.title}}</a></h3>
