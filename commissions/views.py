@@ -12,6 +12,8 @@ class CommissionListView(ListView):
     
     model = Commission
     template_name = "commission_list.html"
+    ordering = ["status","-created_on"]
+
 
 def commission_detail(request, pk):
     """Return commission_detail html file with apt context."""
