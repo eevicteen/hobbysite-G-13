@@ -21,7 +21,7 @@ class JobApplicationAdmin(admin.ModelAdmin):
     search_fields = ('applied_on',)
     list_display = ('applicant',)
 
-class JobApplicationAdminInLine(admin.ModelAdmin):
+class JobApplicationAdminInLine(admin.TabularInline):
     """Creates tabular inline for job application under job."""
     model=JobApplication
 
