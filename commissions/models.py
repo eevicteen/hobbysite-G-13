@@ -11,7 +11,7 @@ class Commission(models.Model):
     """Create Commission with appropriate field, sorted by time created sorted ascendingly."""
 
     title = models.CharField(max_length=255)
-    commission = models.ForeignKey(Profile, on_delete=models.CASCADE,)
+    author = models.ForeignKey(Profile, on_delete=models.CASCADE,null=True)
     description = models.TextField()
     STATUS_CHOICES = [
         ('a_open', 'Open'),
