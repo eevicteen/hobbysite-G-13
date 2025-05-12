@@ -72,7 +72,7 @@ class Job(models.Model):
         """Orders Jobs by status (Open > Full), manpower required, 
         in descending order, then role, in ascending order"""
         
-        ordering = ["status","-manpower","role"]
+        ordering = ["status","-manpower_required","role"]
 
 class JobApplication(models.Model):
     job = models.ForeignKey(Job, on_delete=models.CASCADE,)
