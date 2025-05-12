@@ -56,4 +56,9 @@ class Job(models.Model):
     )
     role = models.CharField(max_length=255)
     manpower_required = models.PositiveBigIntegerField()
-    status = 
+    STATUS_CHOICES = [
+        ('open', 'Open'),
+        ('full', 'Full'),
+    ]
+    status = models.CharField(
+        max_length=20, choices=STATUS_CHOICES, default='open')
