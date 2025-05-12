@@ -2,6 +2,7 @@
 
 from django.db import models
 from django.urls import reverse
+from user_management.models import Profile
 
 # Create your models here.
 
@@ -10,8 +11,16 @@ class Commission(models.Model):
     """Create Commission with appropriate field, sorted by time created sorted ascendingly."""
 
     title = models.CharField(max_length=255)
+    commission = models.ForeignKey(Profile, on_delete=models.CASCADE,)
     description = models.TextField()
-    people_required = models.IntegerField()
+    STATUS_CHOICES = [
+        ('a_open', 'Open'),
+        ('b_full', 'Full'),
+        ('c_completed', 'Completed'),
+        ('d_discontinued', 'Discontinued'),
+    ]
+    status = models.CharField(
+        max_length=20, choices=STATUS_CHOICES, default='a_open')
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -35,10 +44,7 @@ class Comments(models.Model):
     """Create Comments with appropriate field, sorted by time created sorted descendingly."""
 
     entry = models.TextField()
-    commission = models.ForeignKey(
-        Commission,
-        on_delete=models.CASCADE,
-    )
+    commission = models.ForeignKey(Commission,on_delete=models.CASCADE,)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
