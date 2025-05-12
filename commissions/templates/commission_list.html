@@ -10,7 +10,7 @@
     <h2>Created Commissions {{user.profile}}</h2>
     <ul>
         {% for commission in object_list %}
-            {% if user.profile ==  Commission.author%} 
+            {% if user.profile ==  commission.author%} 
                 <h3><a href="{{commission.get_absolute_url}}">{{commission.title}}</a></h3>
                 <li>Created on: {{commission.created_on}}</li>     
                 <br>
