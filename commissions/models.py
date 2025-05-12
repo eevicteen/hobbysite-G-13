@@ -57,8 +57,12 @@ class Job(models.Model):
     role = models.CharField(max_length=255)
     manpower_required = models.PositiveBigIntegerField()
     STATUS_CHOICES = [
-        ('open', 'Open'),
-        ('full', 'Full'),
+        ('a_open', 'Open'),
+        ('b_full', 'Full'),
     ]
     status = models.CharField(
-        max_length=20, choices=STATUS_CHOICES, default='open')
+        max_length=20, choices=STATUS_CHOICES, default='a_open')
+    class Meta:
+        """Orders Jobs by status (Open > Full), manpower required, in descending order, then role, in ascending order"""
+        
+        ordering = ["status","-manpower","role"]
