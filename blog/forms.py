@@ -30,3 +30,9 @@ class ArticleCategoryForm(forms.ModelForm):
     class Meta:
         model = ArticleCategory
         fields = ['name', 'description']
+
+class ArticleUpdateForm(forms.ModelForm):
+    """Creates a form to update an article"""
+    class Meta:
+        model = Article
+        fields = ['title', 'category', 'entry', 'header_image']

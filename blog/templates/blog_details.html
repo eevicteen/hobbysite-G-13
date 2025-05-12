@@ -9,5 +9,8 @@
     <p>Created on:{{article.creation_date}}</p>
     <p>Last updated:{{article.most_recent_update_date}}</p>
     <p>{{article.entry}}</p>
+    <h3>Header Image:</h3>
+    <img src="{{ article.header_image.url }}">
+    <a href ="{% url 'blog:article_update' id=article.id %} ">Article Update</a>
     <a href="{% url 'blog:blog_list' %}">Article List</a>
 {% endblock %}
