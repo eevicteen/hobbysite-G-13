@@ -32,7 +32,7 @@ class Commission(models.Model):
 
 
 class Comments(models.Model):
-    """Create Comments with appropriate field, sorted by time created sorted ascendingly."""
+    """Create Comments with appropriate field, sorted by time created sorted descendingly."""
 
     entry = models.TextField()
     commission = models.ForeignKey(
