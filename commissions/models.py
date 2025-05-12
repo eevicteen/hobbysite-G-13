@@ -46,3 +46,14 @@ class Comments(models.Model):
         """Orders Comments by time created ascendingly."""
         
         ordering = ["-created_on"]
+
+class Job(models.Model):
+    """Create Jobs with appropriate field, sorted by status (Open > Full), manpower required, 
+    in descending order, then role, in ascending order"""
+    commission = models.ForeignKey(
+        Commission,
+        on_delete=models.CASCADE,
+    )
+    role = models.CharField(max_length=255)
+    manpower_required = models.PositiveBigIntegerField()
+    status = 
