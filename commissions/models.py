@@ -79,8 +79,8 @@ class JobApplication(models.Model):
     applicant = models.ForeignKey(Profile, on_delete=models.CASCADE,)
     STATUS_CHOICES = [
         ('a_pending', 'Pending'),
-        ('b_open', 'Open'),
-        ('c_full', 'Full'),
+        ('b_accepted', 'Accepted'),
+        ('c_rejected', 'Rejected'),
     ]
     status = models.CharField(
         max_length=20, choices=STATUS_CHOICES, default='a_pending')
