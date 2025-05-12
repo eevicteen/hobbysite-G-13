@@ -14,6 +14,9 @@ Items in Cart:<br>
 <p>Seller: {{seller.display_name}}</p>
 {% for item in items_on_cart %}
 {% if item.product.owner == seller %}
+{% if item.product.image %}
+    <img src="{{ item.product.image.url }}" alt="">
+    {% endif %}
 <li>{{item.product.name}} -- QTY: {{item.amount}}<a href="{% url 'merchstore:cart-item-edit' pk=item.pk %}">Edit</a> </li>
 
 {% endif %}

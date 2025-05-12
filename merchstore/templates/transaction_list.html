@@ -15,6 +15,9 @@ Logged in user: {{user.username}}
 <p>Buyer: {{buyer.display_name}}</p>
 {% for item in transactions_sold %}
 {% if item.buyer == buyer %}
+{% if item.product.image %}
+    <img src="{{ item.product.image.url }}" alt="">
+    {% endif %}
 <li>{{item.product.name}} -- QTY: {{item.amount}} -- STATUS: {{item.status}} -- CREATED ON: {{item.created_on}}
 {% endif %}
 {% endfor %}

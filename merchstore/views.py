@@ -90,7 +90,7 @@ def product_detail(request, pk):
 def create_product(request):
     form = ProductCreateForm()
     if request.method == 'POST':
-        form = ProductCreateForm(request.POST)
+        form = ProductCreateForm(request.POST, request.FILES)
     if form.is_valid():
         product = form.save(commit=False)
         product.owner = request.user.profile
@@ -104,7 +104,7 @@ def edit_product(request,pk):
     product = get_object_or_404(Product, pk=pk)
     form = ProductEditForm()
     if request.method == 'POST':
-        form = ProductEditForm(request.POST, instance=product)
+        form = ProductEditForm(request.POST,request.FILES, instance=product, )
         if form.is_valid():
             updated_product = form.save(commit=False)
             if updated_product.owner != request.user.profile:

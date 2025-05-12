@@ -13,6 +13,9 @@
 <p><a href="{% url 'merchstore:product-list' %}">View Items</a></p>
 <p><a href="{% url 'merchstore:cart-list' %}">View Cart</a></p>
 <ul>
+    {% if product.image %}
+    <img src="{{ product.image.url }}" alt="">
+    {% endif %}
     <li>Price: ₱{{product.price}}</li>
     <li>Product type: {{product.product_type}}</li>
     <li>Stock: {{product.stock}}</li>
@@ -20,17 +23,17 @@
 </ul>
 
 {% if user.profile != product.owner %}
-    <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form }}
-            {% if product.stock == 0 %}
-            <button  type="submit" disabled>Add to Cart</button>
-            {% else %}
-            <button type="submit" value ="submit">Add to Cart</button>
-            {% endif %}
-        </form>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form }}
+    {% if product.stock == 0 %}
+    <button type="submit" disabled>Add to Cart</button>
+    {% else %}
+    <button type="submit" value="submit">Add to Cart</button>
+    {% endif %}
+</form>
 {% else %}
-     <p><a href="{% url 'merchstore:product-edit' product.pk %}">Edit Product</a></p>   
+<p><a href="{% url 'merchstore:product-edit' product.pk %}">Edit Product</a></p>
 {% endif %}
 <h3>Description:</h3>
 <p>{{product.description}}</p>

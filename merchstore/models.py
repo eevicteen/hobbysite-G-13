@@ -48,6 +48,8 @@ class Product(models.Model):
     ]
     status = models.CharField(
         max_length=20, choices=STATUS_CHOICES, default='available')
+    
+    image = models.ImageField(upload_to='images/', null=True)
 
     def __str__(self):
         """Return the name of the Product."""

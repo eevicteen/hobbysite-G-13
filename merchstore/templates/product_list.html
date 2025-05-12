@@ -17,6 +17,9 @@ Logged in user: {{user.username}}
 
         {% for product in products %}
         {% if product_type == product.product_type and product.owner == user.profile %}
+        {% if product.image %}
+        <img src="{{ product.image.url }}" alt="">
+        {% endif %}
         <li><a href="{{product.get_absolute_url}}">{{product.name}}</a> ₱{{product.price}} <br> Available Stock: {{product.stock}}
         </li>
         {% endif %}
@@ -31,6 +34,9 @@ Logged in user: {{user.username}}
 
         {% for product in products %}
         {% if product_type == product.product_type and product.owner != user.profile %}
+        {% if product.image %}
+        <img src="{{ product.image.url }}" alt="">
+        {% endif %}
         <li><a href="{{product.get_absolute_url}}">{{product.name}}</a> ₱{{product.price}} <br> Available Stock:
             {{product.stock}}</li>
         {% endif %}
