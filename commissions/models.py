@@ -76,3 +76,19 @@ class Job(models.Model):
 
 class JobApplication(models.Model):
     job = models.ForeignKey(Job, on_delete=models.CASCADE,)
+    applicant = models.ForeignKey(Profile, on_delete=models.CASCADE,)
+    STATUS_CHOICES = [
+        ('a_pending', 'Pending'),
+        ('b_open', 'Open'),
+        ('c_full', 'Full'),
+    ]
+    status = models.CharField(
+        max_length=20, choices=STATUS_CHOICES, default='a_pending')
+    
+    applied_on = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        """Orders Jobs by status (Open > Full), manpower required, 
+        in descending order, then role, in ascending order"""
+        
+        ordering = ["status","-applied_on"]
