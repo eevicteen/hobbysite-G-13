@@ -9,19 +9,13 @@ from .forms import ArticleForm, ArticleCategoryForm, CommentForm, ArticleImageFo
 @login_required
 def blog_list(request):
     """Return blog list with user-specific and categorized articles."""
-    user_profile = request.user.profile  # get the Profile associated with the logged-in User
-
+    user_profile = request.user.profile
     categories = ArticleCategory.objects.all()
-
-    # User's own articles
     user_articles = Article.objects.filter(author=user_profile)
-
-    # All articles grouped by category
     categorized_articles = {}
     for category in categories:
         categorized_articles[category] = Article.objects.filter(
             category=category)
-
     return render(request, "blog_list.html", {
         "user_articles": user_articles,
         "categorized_articles": categorized_articles
@@ -32,7 +26,26 @@ def blog_list(request):
 def blog_details(request, id):
     """Return blog_details html file with apt context."""
     article = Article.objects.get(id=id)
-    return render(request, "blog_details.html", {"article": article})
+    form = CommentForm()
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.article = article
+            profile = Profile.objects.get(user=request.user)
+            comment.author = profile
+            comment.save()
+            print(comment.entry)
+            return redirect('blog:blog_detail', article.id)
+    comments = article.comment_set.all().order_by('-creation_date')
+    other_articles = Article.objects.filter(
+        author=article.author).exclude(pk=article.pk)[:2]
+    return render(request, 'blog_details.html', {
+        'article': article,
+        'comment_form': form,
+        'comments': comments,
+        'other_articles': other_articles,
+    })
 
 
 @login_required
@@ -49,14 +62,15 @@ def add_article(request):
             return redirect("blog:blog_list")
     return render(request, "add_article.html", {"form": form})
 
+
 def article_update(request, id):
     """Allows logged-in users to update their article."""
     article = get_object_or_404(Article, pk=id)
     if str(article.author) != str(request.user):
-        #print (request.user)
-        #print (article.author)
-        #redirects unauthorized users back to blog_list.
-        return redirect ("blog:blog_list")
+        # print (request.user)
+        # print (article.author)
+        # redirects unauthorized users back to blog_list.
+        return redirect("blog:blog_list")
     if request.method == "POST":
         form = ArticleForm(request.POST, request.FILES, instance=article)
         if form.is_valid():
@@ -64,5 +78,4 @@ def article_update(request, id):
             return redirect('blog:blog_detail', article.id)
     else:
         form = ArticleForm(instance=article)
-    return render(request, 'add_article.html', {'form': form, 'article': article})  # Ensure response is returned
-
+    return render(request, 'add_article.html', {'form': form, 'article': article})

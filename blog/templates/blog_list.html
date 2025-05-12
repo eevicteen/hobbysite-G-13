@@ -21,7 +21,6 @@
 {% if user.is_authenticated %}
 <h2>All Articles by Category</h2>
 {% for category, articles in categorized_articles.items %}
-
   <h3>Category: {{ category.name }}</h3>
   <p>{{ category.description }}</p>
   <ul>

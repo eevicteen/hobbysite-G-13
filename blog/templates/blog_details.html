@@ -5,12 +5,37 @@
 
 {% block content %}
     <h1>{{ article.title }}</h1>
+    <p>Author: {{article.author}}</p>
+<p> You may also want to check out {{article.author}}'s other works<p>
+{% for other_article in other_articles %}
+    <li><a href="{% url 'blog:blog_detail' other_article.id %}">{{ other_article.title }}</a></li>
+    {% empty %}
+    <li>No other articles by this author.</li>
+{% endfor %}
+</p>
     <p>Category: {{article.category.name}}</p>
     <p>Created on:{{article.creation_date}}</p>
     <p>Last updated:{{article.most_recent_update_date}}</p>
-    <p>{{article.entry}}</p>
     <h3>Header Image:</h3>
     <img src="{{ article.header_image.url }}">
     <a href ="{% url 'blog:article_update' id=article.id %} ">Article Update</a>
     <a href="{% url 'blog:blog_list' %}">Article List</a>
+    <p>{{article.entry}}</p>
+{% if user.is_authenticated %}
+<h1>Comment here:</h1>
+<form method="post" action="{% url 'blog:blog_detail' article.id %}">
+    {% csrf_token %}
+    {{ comment_form.as_p }}
+    <button type="submit">Post Comment</button>
+</form>
+{% endif %}
+<h2>All Comments:</h2>
+{% for comment in comments %}
+    <div>
+        <p><strong>{{ comment.author.user.username }}:</strong> {{ comment.entry }}</p>
+        <p><em>{{ comment.creation_date }}</em></p>
+    </div>
+{% empty %}
+    <p>No comments yet.</p>
+{% endfor %}
 {% endblock %}

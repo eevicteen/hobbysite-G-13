@@ -34,6 +34,7 @@ class Article(models.Model):
 
     def __str__(self):
         """Return the name of the Article itself."""
+
         return self.title
 
     class Meta:
@@ -44,6 +45,7 @@ class Article(models.Model):
 
 class Comment(models.Model):
     """Create Comment model with appropriate field, sorted by date."""
+
     author = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True)
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     entry = models.TextField()
@@ -52,11 +54,13 @@ class Comment(models.Model):
 
     class Meta:
         """Order the comments based on its creation date."""
+
         ordering = ["creation_date"]
 
 
 class ArticleImage(models.Model):
     """Create ArticleImage model with appropriate fields."""
+    
     image = models.ImageField(upload_to='recipe_images/', null=False)
     description = models.TextField(max_length=255)
     article = models.ForeignKey(
