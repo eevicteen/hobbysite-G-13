@@ -1,9 +1,14 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
 <html>
     <head>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale = 1" />
         <title>{% block title %}Hobby Site{% endblock %}</title>
-        {% block styles %}
+
+        <link rel="stylesheet" href="{% static 'styles/base.css' %}">
+        {% block head %}
         {% endblock %}
     </head>
     <body>

@@ -1,40 +1,62 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}
-{{name}}
+{% block title %} 
+    Product Detail
+{% endblock %}
+
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'merchstore/styles/style.css' %}">
 {% endblock %}
 
 {% block content %}
-<h1>MERCHSTORE</h1>
-<h2>{{error_message}}</h2>
-<h2>Product Details</h2>
-<h3>{{product.name}}</h3>
-<p><a href="{% url 'merchstore:product-list' %}">View Items</a></p>
-<p><a href="{% url 'merchstore:cart-list' %}">View Cart</a></p>
-<ul>
+<h1 class="page-title">MERCHSTORE</h1>
+<h2 class="error-message">{{ error_message }}</h2>
+
+<div class="user-info">
+    <p><strong>Logged in user:</strong> {{ user.username }}</p>
+    
+</div>
+<div class="user-product">
+    <p><a href="{% url 'merchstore:cart-list' %}" class="btn">View Cart</a></p>
+    <p><a href="{% url 'merchstore:product-list' %}" class="btn">View Items</a></p>
+    <p><a href="{% url 'merchstore:transactions' %}" class="btn">View Transactions</a></p>
+</div>
+
+<h2 class="section-title">Product Details</h2>
+
+
+<div class="product-detail">
     {% if product.image %}
-    <img src="{{ product.image.url }}" alt="">
+    <img src="{{ product.image.url }}" alt="" class="product-image">
     {% endif %}
-    <li>Price: ₱{{product.price}}</li>
-    <li>Product type: {{product.product_type}}</li>
-    <li>Stock: {{product.stock}}</li>
-    <li>Status: {{product.get_status_display}}</li>
-</ul>
+    
+    <div class="product-text">
+        <div class="product-type-title">{{product.name}}</div>
+        <div class="product-price">Price: ₱{{ product.price }}</div>
+        <div class="product-generic">Product type: {{ product.product_type }}</div>
+        <div class="product-generic">Stock: {{ product.stock }}</div>
+        <div class="product-generic">Status: {{ product.get_status_display }}</div>
+        <br><br>
+        <div class="product-type-title">Description:</div>
+        <p>{{product.description}}</p>
+    </div>
+</div>
+
+
 
 {% if user.profile != product.owner %}
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form }}
     {% if product.stock == 0 %}
-    <button type="submit" disabled>Add to Cart</button>
+    <button type="submit" disabled class="btn">Add to Cart</button>
     {% else %}
-    <button type="submit" value="submit">Add to Cart</button>
+    <button type="submit" value="submit" class="btn">Add to Cart</button>
     {% endif %}
 </form>
 {% else %}
-<p><a href="{% url 'merchstore:product-edit' product.pk %}">Edit Product</a></p>
+<a href="{% url 'merchstore:product-edit' product.pk %}" class="btn">Edit Product</a>
 {% endif %}
-<h3>Description:</h3>
-<p>{{product.description}}</p>
 {% endblock %}
