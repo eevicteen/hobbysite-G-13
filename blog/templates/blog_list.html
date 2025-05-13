@@ -2,43 +2,60 @@
 {% load static %}
 {% block title %}Blog - Hobby Site{% endblock %}
 
+{% block head %}
+<link rel="stylesheet" href="{% static 'blog/styles/style.css' %}">
+{% endblock %}
+
 {% block content %}
-<h1>Blog</h1>
+<h1 class="BlogTitle">Blog</h1>
 
 {% if user.is_authenticated %}
-  <h2>Your Articles:</h2>
-  <ul>
-    {% for article in user_articles %}
-    <li>
-      <a href="{% url 'blog:blog_detail' article.id %}">{{ article.title }}</a>
-    </li>
-    {% empty %}
-    <li>You haven't written any articles yet.</li>
-    {% endfor %}
-  </ul>
+
+<section class="UserArticlesSection">
+  <div class="UserArticlesContainer">
+    <h2 class="UserArticlesHeader">Your Articles:</h2>
+    <div class="InnerUserContainer">
+        {% for article in user_articles %}
+          <div class="Date"> Written on: {{ article.creation_date }}</div>
+          <div class="Category">Category: {{ article.category.name }}</div>
+          <div class="Title"><a href="{% url 'blog:blog_detail' article.id %}">{{ article.title }}</a></div>
+      {% empty %}      
+      <li>You haven't written any articles yet.</li>
+      {% endfor %}
+</section>
+
 {% endif %}
 
-{% if user.is_authenticated %}
-<h2>All Articles by Category</h2>
-{% for category, articles in categorized_articles.items %}
-  <h3>Category: {{ category.name }}</h3>
-  <p>{{ category.description }}</p>
-  <ul>
-    {% for article in articles %}
-    {% if article.author.display_name != user.profile.display_name %}
-    <li>
-      <a href="{% url 'blog:blog_detail' article.id %}">{{ article.title }}</a>
-    </li>
-      {% endif %}
-    {% empty %}
-    <li>No articles in this category.</li>
-    {% endfor %}
-  </ul>
-{% endfor %}
-{% endif %}
+</div>
+
+<section class ="AllArticlesSection">
+  <div class="AllArticlesContainer">
+    <h1 class="AllArticlesHeader">All Articles by Category:</h1>
+    <div class="InnerAllClassContainer">
+      {% for category, articles in categorized_articles.items %}
+      <div class = "OtherArticleCategory">Category: {{category.name}} </div>
+      <div class = "Description">{{category.description}} </div>
+      <div></div>
+      {% for article in articles %}
+      {% if article.author.display_name != user.profile.display_name %}
+      <div class = "Author"> Written by {{article.author}} </div>
+      <div class = "OtherArticleDate"> Written on {{article.creation_date}} </div>
+      <div class  = "OtherArticleTitle"><a href="{% url 'blog:blog_detail' article.id %}">{{ article.title }}</a></div>
+            {% endif%}
+                  {% endfor %}    
+
+       {% empty %}      
+      <li>You haven't written any articles yet.</li>
+      {% endfor %}    
+
+</section>
 
 {% if user.is_authenticated %}
+<div class = "ButtonWrapper">
+<div class = "AddButton">
   <p><a href="{% url 'blog:add_article' %}">Create New Article</a></p>
+  </div>
+</div>
 {% endif %}
 
 {% endblock %}

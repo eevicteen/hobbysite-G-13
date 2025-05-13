@@ -1,0 +1,119 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 20px;
+}
+
+.BlogTitle {
+    text-align: center;
+    font-size: 2em;
+    color: white;
+    background-color: #0056b3;
+    padding: 1rem;
+}
+
+.UserArticlesContainer{
+    margin: 100px;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    border-style: solid;
+    border-radius: 5px;
+    border-color: gray;
+    grid-auto-rows: auto;
+}
+
+.UserArticlesHeader{
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    margin: 20px;
+}
+
+.UserArticlesHeader::after {
+    margin-left: 20px;
+    margin-right: 20px;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    content: "";
+    flex-grow: 1;
+    height: 1px;
+    background-color: gray;
+}
+
+.InnerUserContainer{
+    display: grid;
+    grid-column: 1/ -1;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.Date, .Category, .Title, .OtherArticleCategory, .Description,.Author ,.OtherArticleDate ,.OtherArticleTitle{
+    padding: 30px;
+
+}
+
+.AllArticlesContainer{
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    border-style: solid;
+    border-radius: 5px;
+    border-color: gray;
+    grid-auto-rows: auto;
+    margin: 100px;
+}
+
+.AllArticlesHeader{
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    margin: 20px;
+}
+.AllArticlesHeader::after{
+    margin-left: 20px;
+    margin-right: 20px;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    content: "";
+    flex-grow: 1;
+    height: 1px;
+    background-color: gray;
+}
+
+
+.InnerAllClassContainer{
+    display: grid;
+    grid-column: 1/ -1;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.OtherArticleCategory{
+    font-weight: bold;
+    grid-column:1;
+    font-size: 25px;
+}
+.Description{
+    grid-column: 2;
+}
+
+.AddButton {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.8em;
+  margin: 20px auto;        
+  display: inline-block;   
+  text-align: center;       
+}
+.ButtonWrapper{
+  display: flex;
+  justify-content: center;
+}
+.AddButton:hover{
+    background-color: #0056b3;
+}
