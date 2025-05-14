@@ -1,12 +1,17 @@
 from django import forms
 from django.contrib.auth.models import User
 
-from .models import Commission
+from .models import Commission, JobApplication
 
 class CommissionCreateForm(forms.ModelForm):
     class Meta:
         model = Commission
-        fields = ['title','author','description','status']
+        fields = ['title','description']
+
+class JobApplicationForm(forms.ModelForm):
+    class Meta:
+        model = JobApplication
+        fields = ['status']
 
 # class RegisterForm(forms.ModelForm):
 #     class Meta:

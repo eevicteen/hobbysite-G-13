@@ -97,11 +97,11 @@ class JobApplication(models.Model):
     
     applied_on = models.DateTimeField(auto_now_add=True)
 
-    def get_applicant(self):
-        return self.applicant
+    # def get_applicant(self):
+    #     return self.applicant
 
-    def get_job(self):
-        return self.job
+    # def get_job(self):
+    #     return self.job
 
     class Meta:
         """Orders Jobs by status (Open > Full), manpower required, 

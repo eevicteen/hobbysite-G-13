@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.views.generic.list import ListView
 
 from .models import Commission,Comments, Job, JobApplication
-from .forms import CommissionCreateForm
+from .forms import CommissionCreateForm, JobApplicationForm
 
 
 class CommissionListView(ListView):
@@ -39,6 +39,17 @@ def commission_detail(request, pk):
         if applicant.status == 'b_accepted':
             accepted +=1
     open_slots = people_required - accepted
+    form = JobApplicationForm()
+    if request.method == 'POST':
+        form = JobApplicationForm(request.POST)
+    if form.is_valid():
+        job_application = form.save(commit=False)
+        job_application.applicant = request.user.profile
+        job_application.job = job
+        commission.save()
+        return redirect('/commissions/list', pk=commission.pk)
+
+
     ctx = {
         "commission": commission,
         "comments": comments,
