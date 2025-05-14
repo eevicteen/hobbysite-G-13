@@ -43,12 +43,12 @@ def create_commission(request):
     if request.method == 'POST':
         form = CommissionCreateForm(request.POST)
     if form.is_valid():
-        product = form.save(commit=False)
-        product.owner = request.user.profile
-        product.save()
-        return redirect('merchstore:product-detail', pk=product.pk)
+        commission = form.save(commit=False)
+        commission.author = request.user.profile
+        commission.save()
+        return redirect('commission:commission-detail', pk=commission.pk)
     ctx = {"form": form}
-    return render(request, 'product_create.html', ctx)
+    return render(request, 'commission_create.html', ctx)
 
 #@login_required
 # def edit_commission(request,pk):
