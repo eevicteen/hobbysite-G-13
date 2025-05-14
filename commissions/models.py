@@ -68,6 +68,9 @@ class Job(models.Model):
     ]
     status = models.CharField(
         max_length=20, choices=STATUS_CHOICES, default='a_open')
+    def __str__(self):
+        """Return the role of the Job."""
+        return self.role
     def get_commission(self):
         return self.commission
 
