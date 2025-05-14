@@ -68,6 +68,9 @@ class Job(models.Model):
     ]
     status = models.CharField(
         max_length=20, choices=STATUS_CHOICES, default='a_open')
+    def get_commission(self):
+        return self.commission
+
     class Meta:
         """Orders Jobs by status (Open > Full), manpower required, 
         in descending order, then role, in ascending order"""
@@ -86,6 +89,12 @@ class JobApplication(models.Model):
         max_length=20, choices=STATUS_CHOICES, default='a_pending')
     
     applied_on = models.DateTimeField(auto_now_add=True)
+
+    def get_applicant(self):
+        return self.applicant
+
+    def get_job(self):
+        return self.job
 
     class Meta:
         """Orders Jobs by status (Open > Full), manpower required, 
