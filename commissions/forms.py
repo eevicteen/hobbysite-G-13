@@ -8,10 +8,10 @@ class CommissionCreateForm(forms.ModelForm):
         model = Commission
         fields = ['title','description']
 
-class JobApplicationForm(forms.ModelForm):
-    class Meta:
-        model = JobApplication
-        fields = ['status']
+# class JobApplicationForm(forms.ModelForm):
+#     class Meta:
+#         model = JobApplication
+#         exclude = ['__all__']
 
 # class RegisterForm(forms.ModelForm):
 #     class Meta:
