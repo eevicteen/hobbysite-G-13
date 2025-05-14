@@ -14,7 +14,7 @@
             <br> 
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
-                <input type="hidden" name="job_id" value="{{ job.id }}"/>
+                {% comment %} <input type="hidden" name="job_id" value="{{ job.id }}"/> {% endcomment %}
                 {{ form }}
                 <button type="submit" value={{job}}>Apply to Job</button>
             </form>
