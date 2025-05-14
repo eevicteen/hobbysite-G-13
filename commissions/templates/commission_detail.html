@@ -8,6 +8,9 @@
 <ul>
     <a href="{% url 'commissions:commissions-list' %}">Commission List</a>
     <p>TITLE: <br> {{commission.title}}</p>
+    {% for x in jobs %}
+        itlog
+    {% endfor %}
     <p>DESCRIPTION: <br> {{commission.description}}</p>
     <p>People required: <br> {{commission.people_required}}</p>
     <p>Created on: <br> {{commission.created_on}}</p>
