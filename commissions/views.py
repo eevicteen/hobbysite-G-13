@@ -12,18 +12,22 @@ class CommissionListView(ListView):
     model = Commission
     template_name = "commission_list.html"
     ordering = ["status","-created_on"]
+    jobs = Job.objects.all()
+    print(jobs)
+
 
 def commission_detail(request, pk):
     """Return commission_detail html file with apt context."""
     
     commission = get_object_or_404(Commission, pk=pk)
     comments = Comments.objects.filter(commission=commission)
-    jobs = Job.objects.all()
-    for x in jobs:
-        print(jobs.role)
-        print("break muna")
-        print("break muna")
-        print("break muna")
+    # jobs = Job.objects.all()
+    # for x in jobs:
+    #     print(x.commission)
+    # print(commission)
+    # print("break muna")
+    # print("break muna")
+    # print("break muna")
 
     ctx = {
         "commission": commission,
