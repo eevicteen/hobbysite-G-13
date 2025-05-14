@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.views.generic.list import ListView
 
-from .models import Commission,Comments
+from .models import Commission,Comments, Job, JobApplication
 
 
 class CommissionListView(ListView):
@@ -27,3 +27,6 @@ def commission_detail(request, pk):
     }
 
     return render(request, "commission_detail.html", ctx)
+
+class JobListView (ListView):
+    model=Job
