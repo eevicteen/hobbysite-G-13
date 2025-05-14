@@ -30,3 +30,4 @@ def commission_detail(request, pk):
 
 class JobListView (ListView):
     model=Job
+    context_object_name = "job_list"
