@@ -31,3 +31,17 @@ def commission_detail(request, pk):
 class JobListView (ListView):
     model=Job
     context_object_name = "job_list"
+
+
+def job_list(request):
+    """Return commission_list html file with apt context."""
+
+    jobs = Job.objects.all()
+    job_applications = JobApplication.objects.all()
+
+    ctx = {
+        "jobs": jobs,
+        "job_applications": job_applications
+    }
+
+    return render(request, "commission_list.html", ctx)
