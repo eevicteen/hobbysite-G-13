@@ -30,11 +30,15 @@ def commission_detail(request, pk):
     commission = get_object_or_404(Commission, pk=pk)
     comments = Comments.objects.filter(commission=commission)
     jobs = Job.objects.filter(commission=commission)
+    people_required = 0
+    for job in jobs:
+        people_required += job.manpower_required
 
     ctx = {
         "commission": commission,
         "comments": comments,
-        "jobs": jobs
+        "jobs": jobs,
+        "people_required":people_required
     }
 
     return render(request, "commission_detail.html", ctx)
