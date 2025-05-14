@@ -12,10 +12,6 @@ class CommissionListView(ListView):
     model = Commission
     template_name = "commission_list.html"
     ordering = ["status","-created_on"]
-    # print(jobs)
-    # for x in jobs:
-    #     print(x.role)
-    # print("test")
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         commissions = Commission.objects.all()
@@ -32,13 +28,6 @@ def commission_detail(request, pk):
     
     commission = get_object_or_404(Commission, pk=pk)
     comments = Comments.objects.filter(commission=commission)
-    # jobs = Job.objects.all()
-    # for x in jobs:
-    #     print(x.commission)
-    # print(commission)
-    # print("break muna")
-    # print("break muna")
-    # print("break muna")
 
     ctx = {
         "commission": commission,
@@ -46,3 +35,4 @@ def commission_detail(request, pk):
     }
 
     return render(request, "commission_detail.html", ctx)
+
