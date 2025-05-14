@@ -118,7 +118,10 @@ img {
 }
 .ButtonWrapper{
   display: flex;
-  justify-content: center;
+    justify-content: center; 
+    align-items: center; 
+    height: 100px; 
+    text-align: center;
 }
 .AddButton:hover{
     background-color: #0056b3;
@@ -247,5 +250,11 @@ hr {
     padding: 15px;
 }
 
-
+.ArticleListButtonContainer {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    height: 100px; 
+    text-align: center;
+}
 

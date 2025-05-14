@@ -62,6 +62,11 @@
                 {% endfor %}
         </div>
     </div>
+    <div class="ArticleListButtonContainer">
+        <a href="{% url 'blog:blog_list' %}">
+            <button class="addButton">Go Back to Article List</button>
+        </a>
+    </div>
 </section>
 
 {% endblock %}

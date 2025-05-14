@@ -55,11 +55,10 @@
 </section>
 
 {% if user.is_authenticated %}
-<div class = "ButtonWrapper">
-<div class = "AddButton">
-  <p><a href="{% url 'blog:add_article' %}">Create New Article</a></p>
-  </div>
-</div>
+<div class="ArticleListButtonContainer">
+        <a href="{% url 'blog:add_article' %}">
+            <button class="addButton">Create Article</button>
+        </a>
 {% endif %}
 
 {% endblock %}
