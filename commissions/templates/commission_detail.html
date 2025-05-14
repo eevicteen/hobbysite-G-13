@@ -18,7 +18,9 @@
     <p>Open Slots: <br> {{open_slots}}</p>
     <p>Created on: <br> {{commission.created_on}}</p>
     <p>Updated on: <br> {{commission.updated_on}}</p>
-
+    <form action="/commissions/">
+    <input type="submit" value="Apply to Job" />
+    </form>
     <p> COMMENTS: </p>
     {% for comment in comments %}
         <p>{{comment.entry}}</p>
