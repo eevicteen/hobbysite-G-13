@@ -7,6 +7,7 @@
 <h1>COMMISSION DETAIL</h1>
 <ul>
     <a href="{% url 'commissions:commissions-list' %}">Commission List</a>
+    <p>TITLE: <br> {{commission.title}}</p>
     <p>DESCRIPTION: <br> {{commission.description}}</p>
     <p>People required: <br> {{commission.people_required}}</p>
     <p>Created on: <br> {{commission.created_on}}</p>
