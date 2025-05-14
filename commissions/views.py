@@ -46,7 +46,7 @@ def create_commission(request):
         commission = form.save(commit=False)
         commission.author = request.user.profile
         commission.save()
-        return redirect('commission:commission-detail', pk=commission.pk)
+        return redirect('/commissions/list', pk=commission.pk)
     ctx = {"form": form}
     return render(request, 'commission_create.html', ctx)
 
