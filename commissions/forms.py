@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 
-from .models import Commission, Transaction
+from .models import Commission
 
 class CommissionCreateForm(forms.ModelForm):
     class Meta:
