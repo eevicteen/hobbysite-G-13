@@ -10,7 +10,7 @@
     <ul>
         {% for commission in object_list %}
             {% if user.profile ==  commission.author%} 
-                <h3><a href="{{commission.get_absolute_url}}">egg{{commission.title}}</a></h3>
+                <h3><a href="{{commission.get_absolute_url}}">{{commission.title}}</a></h3>
                 <li>Created on: {{commission.created_on}}</li>     
                 <br>
             {% endif %}
@@ -19,8 +19,20 @@
     </ul>
     <h2>Applied Commissions {{user.profile}}</h2>
     <ul>
-        {% for x in jobs %}
-            <h1>dis is a test ulit {{x.manpower_required}}</h1>
+        {% for app in applications %}
+        {% if app.applicant == user.profile%}
+            {% for job in jobs %}
+            {% if app.job == job %}
+                {% for com in commissions %}
+                {% if job.commission == com %}
+                    <h3><a href="{{com.get_absolute_url}}">{{com.title}} ({{job.role}})</a></h3>
+                    <li>Applied on: {{app.applied_on}}</li>                     
+                    <br>
+                {% endif %}
+                {% endfor %}
+            {% endif %}
+            {% endfor %}
+        {% endif %}
         {% endfor %}
         {% for commission in object_list %}
             {% if user.profile ==  commission.title%} 
@@ -28,7 +40,6 @@
                 <li>Created on: {{commission.created_on}}</li>                     
                 <br>
             {% endif %}
-
         {% endfor %}
     </ul>
 {% endif %}
