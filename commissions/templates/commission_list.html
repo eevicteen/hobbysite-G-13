@@ -10,7 +10,7 @@
     <ul>
         {% for commission in object_list %}
             {% if user.profile ==  commission.author%} 
-                <h3><a href="{{commission.get_absolute_url}}">{{commission.title}}</a></h3>
+                <h3><a href="{{commission.get_absolute_url}}">egg{{commission.title}}</a></h3>
                 <li>Created on: {{commission.created_on}}</li>     
                 <br>
             {% endif %}
@@ -23,9 +23,9 @@
             <h1>dis is a test ulit {{x.manpower_required}}</h1>
         {% endfor %}
         {% for commission in object_list %}
-            {% if user.profile ==  commission.%} 
+            {% if user.profile ==  commission.title%} 
                 <h3><a href="{{commission.get_absolute_url}}">{{commission.title}}</a></h3>
-                <li>Created on: {{commission.created_on}}</li>     
+                <li>Created on: {{commission.created_on}}</li>                     
                 <br>
             {% endif %}
 
@@ -39,6 +39,7 @@
     {% for commission in object_list %}
     <h3><a href="{{commission.get_absolute_url}}">{{commission.title}}</a></h3>
     <li>Created on: {{commission.created_on}}</li>
+    <li>egg {{commission.status}}</li>                
     <br>
 
     {% endfor %}

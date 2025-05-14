@@ -33,6 +33,10 @@ class Commission(models.Model):
         """Return the url of the Commission."""
 
         return reverse('commissions:commission-detail', args=[self.pk])
+    
+    def get_status(self,status):
+        """"return status of the Commission."""
+        return status
 
     class Meta:
         """Orders Commission by time created ascendingly."""
