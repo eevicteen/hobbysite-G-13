@@ -1,6 +1,6 @@
 """Receives web requests and returns the necessary web response."""
 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.views.generic.list import ListView
 
