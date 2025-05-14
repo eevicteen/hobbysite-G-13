@@ -20,7 +20,7 @@
           <div class="Category">Category: {{ article.category.name }}</div>
           <div class="Title"><a href="{% url 'blog:blog_detail' article.id %}">{{ article.title }}</a></div>
       {% empty %}      
-      <li>You haven't written any articles yet.</li>
+      <div class = "NoOtherArticles">You haven't written any articles yet.</div>
       {% endfor %}
 </section>
 
@@ -36,16 +36,20 @@
       <div class = "OtherArticleCategory">Category: {{category.name}} </div>
       <div class = "Description">{{category.description}} </div>
       <div></div>
+      {% if articles %}
       {% for article in articles %}
       {% if article.author.display_name != user.profile.display_name %}
       <div class = "Author"> Written by {{article.author}} </div>
       <div class = "OtherArticleDate"> Written on {{article.creation_date}} </div>
       <div class  = "OtherArticleTitle"><a href="{% url 'blog:blog_detail' article.id %}">{{ article.title }}</a></div>
             {% endif%}
-                  {% endfor %}    
-
+                  
+           {% endfor %}    
+      {% else %}
+      <div class = "NoOtherArticles">No articles in this category yet.</div>
+      {% endif %}
        {% empty %}      
-      <li>You haven't written any articles yet.</li>
+      <div class = "NoOtherArticles">No articles have been written yet.</div>
       {% endfor %}    
 
 </section>

@@ -1,10 +1,14 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f7f7f7;
     margin: 0;
     padding: 20px;
 }
 
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
 .BlogTitle {
     text-align: center;
     font-size: 2em;
@@ -51,7 +55,9 @@ body {
 
 .Date, .Category, .Title, .OtherArticleCategory, .Description,.Author ,.OtherArticleDate ,.OtherArticleTitle{
     padding: 30px;
-
+    display: flex;
+    justify-content: center;
+    align-self: center;
 }
 
 .AllArticlesContainer{
@@ -117,3 +123,129 @@ body {
 .AddButton:hover{
     background-color: #0056b3;
 }
+
+
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+}
+
+.BlogDetailsArticleTitle {
+    text-align: center;
+    font-size: 2em;
+    color: white;
+    background-color: #0056b3;
+    padding: 1rem;
+}
+
+.BlogDetailsArticleContainer{
+    display: grid;
+    border-style: solid;
+    border-radius: 5px;
+    border-color: gray;
+    grid-auto-rows: auto;
+    margin: 100px;
+    margin-top :75px;
+    padding: 20px;
+}
+
+.BlogDetailsArticleTitleInner{
+    font-size: 2em;
+}
+
+hr {
+    border: none;
+    height: 2px;
+    background-color: gray;
+    margin: 20px auto;
+    width: 95%;
+    display:flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.BlogDetailsAddCommentContainer{
+    display: grid;
+    border-style: solid;
+    border-radius: 5px;
+    border-color: gray;
+    grid-auto-rows: auto;
+    margin: 100px;
+    margin-top :75px;
+    padding: 20px;
+}
+.BlogDetailsAddCommentForm textarea {
+    width: 100%;     
+    height: 80px;   
+    padding: 10px;  
+    font-size: 1em;
+}
+
+.BlogDetailsAddCommentForm button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.BlogDetailsAddCommentForm button:hover {
+    background-color: #0056b3;
+}
+
+.UpdateArticleHeader{
+    text-align: center;
+    font-size: 2em;
+    color: white;
+    background-color: #0056b3;
+    padding: 1rem;
+}
+
+.UpdateArticleContainer{
+    display: grid;
+    border-style: solid;
+    border-radius: 5px;
+    border-color: gray;
+    grid-auto-rows: auto;
+    margin: 100px;
+    margin-top :75px;
+    padding: 10px;
+}
+.UpdateArticleForm textarea {
+    width: 100%;     
+    height: 80px;   
+    padding: 10px;  
+    font-size: 1em;
+}
+
+.BlogDetailsOtherArticlesContainer {
+    display: grid;
+    border-style: solid;
+    border-radius: 5px;
+    border-color: gray;
+    grid-auto-rows: auto;
+    margin: 100px;
+    margin-top :75px;
+    padding: 10px;  
+}
+
+.BlogDetailsOtherArticlesHeader{
+    font-size: 1.4em;
+    margin-left: 20px;
+}
+.InnerBlogDetailsOtherArticlesContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+.OtherArticleDate, .OtherArticleTitle, .NoOtherArticles{
+    display:flex;
+    justify-content: center;
+    padding: 15px;
+}
+
+
+

@@ -2,40 +2,66 @@
 {% load static %}
 
 {% block title %}{{ article.title }}{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'blog/styles/style.css' %}">
+{% endblock %}
 
 {% block content %}
-    <h1>{{ article.title }}</h1>
-    <p>Author: {{article.author}}</p>
-<p> You may also want to check out {{article.author}}'s other works<p>
-{% for other_article in other_articles %}
-    <li><a href="{% url 'blog:blog_detail' other_article.id %}">{{ other_article.title }}</a></li>
-    {% empty %}
-    <li>No other articles by this author.</li>
-{% endfor %}
-</p>
-    <p>Category: {{article.category.name}}</p>
-    <p>Created on:{{article.creation_date}}</p>
-    <p>Last updated:{{article.most_recent_update_date}}</p>
-    <h3>Header Image:</h3>
-    <img src="{{ article.header_image.url }}">
-    <a href ="{% url 'blog:article_update' id=article.id %} ">Article Update</a>
-    <a href="{% url 'blog:blog_list' %}">Article List</a>
-    <p>{{article.entry}}</p>
-{% if user.is_authenticated %}
-<h1>Comment here:</h1>
-<form method="post" action="{% url 'blog:blog_detail' article.id %}">
-    {% csrf_token %}
-    {{ comment_form.as_p }}
-    <button type="submit">Post Comment</button>
-</form>
-{% endif %}
-<h2>All Comments:</h2>
-{% for comment in comments %}
-    <div>
-        <p><strong>{{ comment.author.user.username }}:</strong> {{ comment.entry }}</p>
-        <p><em>{{ comment.creation_date }}</em></p>
+<h1 class="BlogDetailsArticleTitle">Blog</h1>
+
+<section class = "BlogDetailsArticleSection">
+    <div class = "BlogDetailsArticleContainer">
+        <h1 class="BlogDetailsArticleTitleInner">{{article.title}}</h1>
+        <p class ="BlogDetailsArticleDate"> This article was written on: {{article.creation_date}} </p>
+        <p class ="BlogDetailsArticleAuthor">Written by: {{article.author}}</p>
+        {% if article.author.display_name == user.profile.display_name %}
+        <p class="BlogDetailsArticleUpdate"><a href ="{% url 'blog:article_update' id=article.id %} ">Article Update</a></p>
+        {% endif %}
+        <hr>
+        <div class ="BlogDetailsHeaderImage"><img src ="{{article.header_image.url }}"></div>
+        <div class = "BlogDetailsArticleEntry">{{article.entry}}</div>
     </div>
-{% empty %}
-    <p>No comments yet.</p>
-{% endfor %}
+</section>
+
+<section class = "BlogDetailsCommentSection">
+    <div class = "BlogDetailsAddCommentContainer">
+        <h1 class = "BlogDetailsAddCommentTitle">Add a comment...</h1>
+        <div class = "BlogDetailsAddCommentForm">
+                <form method="post" action="{% url 'blog:blog_detail' article.id %}">
+                {% csrf_token %}
+                {{ comment_form.as_p }}
+            <button type="submit">Post Comment</button>
+            </form>
+        </div>
+            <hr>
+        <div class="BlogDetailsAllCommentsContainer">
+            <h1 class = "BlogDetailsAllCommentsTitle">Comments:</h1>
+            {% for comment in comments %}
+            <div>
+                <p><strong>{{ comment.author.user.username }}:</strong> {{ comment.entry }}</p>
+                <p><em>{{ comment.creation_date }}</em></p>
+            </div>
+            {% empty %}
+                <p>No comments yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+   
+</section>
+
+<section class = "BlogDetailsOtherArticleSection">
+    <div class = "BlogDetailsOtherArticlesContainer">
+        <h1 class = "BlogDetailsOtherArticlesHeader">You may be interested in {{article.author}}'s other works. </h1>
+        <hr>
+        <div class = "InnerBlogDetailsOtherArticlesContainer">
+            {% for other_article in other_articles %}
+            <div class = "OtherArticleDate"> Written on {{other_article.creation_date}} </div>
+            <div class  = "OtherArticleTitle"><a href="{% url 'blog:blog_detail' other_article.id %}">{{other_article.title }}</a></div>
+             {% empty %}
+            <div class = "NoOtherArticles">No other articles by this author.</div>
+                {% endfor %}
+        </div>
+    </div>
+</section>
+
 {% endblock %}

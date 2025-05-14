@@ -2,16 +2,31 @@
 {% load static %}
 
 {% block title %} 
+{% block head %}
+<link rel="stylesheet" href="{% static 'blog/styles/style.css' %}">
+{% endblock %}
+
+
 {{name}}
 {% endblock %}
 
 {% block heading %}Add Article{% endblock %}
 
-{% block content %}        
-<form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{form}}
-    <button type="submit", value="submit">submit</button>
-</form>
+{% block content %} 
+<h1 class="UpdateArticleHeader">Blog</h1>
+
+
+<section class = "UpdateArticleSection">
+    <div class = "UpdateArticleContainer">
+        <h1>Update Article:</h1>
+        <div class ="UpdateArticleForm">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form}}
+                <button type="submit", value="submit">submit</button>
+            </form>
+        </div>
+    </div>
+</section>
     
 {% endblock %}
