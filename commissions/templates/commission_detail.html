@@ -12,12 +12,18 @@
         {% for job in jobs %}
             <br> <li>{{job.role}}</li>
             <br> 
-            <form method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                {% comment %} <input type="hidden" name="job_id" value="{{ job.id }}"/> {% endcomment %}
-                {{ form }}
-                <button type="submit" value={{job}}>Apply to Job</button>
-            </form>
+            {% for applicant in applicants %}
+                {{applicant.applicant}} <br>
+            {% endfor %}
+            {% if user.is_authenticated %}
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" name="job_id" value="{{ job.id }}"/>
+                    {{ form }}
+                    <button type="submit" value="Apply to Job">Apply to Job</button>
+                </form>
+            {% endif %}
+            
         {% endfor %}
     </p>
     <p>DESCRIPTION: <br> {{commission.description}}</p>

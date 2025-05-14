@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.views.generic.list import ListView
 
 from .models import Commission,Comments, Job, JobApplication
-from .forms import CommissionCreateForm
+from .forms import CommissionCreateForm, JobApplicationForm
 
 
 class CommissionListView(ListView):
@@ -28,6 +28,10 @@ def commission_detail(request, pk):
     """Return commission_detail html file with apt context."""
     
     commission = get_object_or_404(Commission, pk=pk)
+    selected_job = get_object_or_404(Job, pk=pk)
+    form = JobApplicationForm()
+    job_application = 0
+
     comments = Comments.objects.filter(commission=commission)
     jobs = Job.objects.filter(commission=commission)
     applicants = JobApplication.objects.filter(job__in=jobs)
@@ -40,27 +44,28 @@ def commission_detail(request, pk):
             accepted +=1
     open_slots = people_required - accepted
 
-    # if request.method == 'POST':
-    #     job_id = request.POST.get("job_id")
-    #     job = get_object_or_404(Job, id=job_id)
-    #     form = JobApplicationForm(request.POST)
-    # if form.is_valid():
-    #     job_application = form.save(commit=False)
-    #     job_application.job = job
-    #     job_application.applicant = request.user.profile
-    #     commission.save()
-    #     return redirect('/commissions/list', pk=commission.pk)
 
+    if request.method == 'POST':
+        form = JobApplicationForm(request.POST)
+        if form.is_valid():
+            job_application = form.save(commit=False)
+            job_id = request.POST.get("job_id")
+            job_application.job = get_object_or_404(Job, id=job_id)
+            job_application.applicant = request.user.profile
+            job_application.save()
+    
+ 
 
     ctx = {
         "commission": commission,
         "comments": comments,
         "jobs": jobs,
         "people_required":people_required,
-        "open_slots": open_slots
+        "open_slots": open_slots,
+        "applicants": applicants
     }
 
-    return render(request, "commission_detail.html", ctx)
+    return redirect('/commissions/list', pk=commission.pk)
 
 #@login_required
 def create_commission(request):
