@@ -36,3 +36,39 @@ def commission_detail(request, pk):
 
     return render(request, "commission_detail.html", ctx)
 
+#@login_required
+def create_commission(request):
+    form = CommissionCreateForm()
+    if request.method == 'POST':
+        form = CommissionCreateForm(request.POST)
+    if form.is_valid():
+        product = form.save(commit=False)
+        product.owner = request.user.profile
+        product.save()
+        return redirect('merchstore:product-detail', pk=product.pk)
+    ctx = {"form": form}
+    return render(request, 'product_create.html', ctx)
+
+#@login_required
+def edit_commission(request,pk):
+    product = get_object_or_404(Product, pk=pk)
+    form = ProductEditForm()
+    if request.method == 'POST':
+        form = ProductEditForm(request.POST, instance=product)
+        if form.is_valid():
+            updated_product = form.save(commit=False)
+            if updated_product.owner != request.user.profile:
+                return render(request, 'product_detail.html', {
+                    'form': form,
+                    'product': product,
+                    'error_message': "You are not authorized to edit this product."
+                })
+            updated_product.status = 'out_of_stock' if updated_product.stock == 0 else 'available'
+            updated_product.save()
+            return redirect('merchstore:product-detail', pk=product.pk)
+    else:
+        form = ProductEditForm(instance=product)
+
+    ctx = {"form": form, "product":product}
+    return render(request, 'product_create.html', ctx)
+
