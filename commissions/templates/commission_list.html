@@ -19,8 +19,8 @@
     </ul>
     <h2>Applied Commissions {{user.profile}}</h2>
     <ul>
-        {% for job in jobs %}
-            <h1>dis is a test ulit {{job.role}}</h1>
+        {% for x in jobs %}
+            <h1>dis is a test ulit {{x.manpower_required}}</h1>
         {% endfor %}
         {% for commission in object_list %}
             {% if user.profile ==  commission.%} 

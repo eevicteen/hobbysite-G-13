@@ -12,8 +12,15 @@ class CommissionListView(ListView):
     model = Commission
     template_name = "commission_list.html"
     ordering = ["status","-created_on"]
-    jobs = Job.objects.all()
-    print(jobs)
+    # print(jobs)
+    # for x in jobs:
+    #     print(x.role)
+    # print("test")
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        jobs = Job.objects.all()
+        context["jobs"] = jobs
+        return context
 
 
 def commission_detail(request, pk):
