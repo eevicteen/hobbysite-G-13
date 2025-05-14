@@ -30,15 +30,21 @@ def commission_detail(request, pk):
     commission = get_object_or_404(Commission, pk=pk)
     comments = Comments.objects.filter(commission=commission)
     jobs = Job.objects.filter(commission=commission)
+    applicants = JobApplication.objects.filter(job__in=jobs)
     people_required = 0
     for job in jobs:
         people_required += job.manpower_required
-
+    accepted = 0
+    for applicant in applicants:
+        if applicant.status == 'b_accepted':
+            accepted +=1
+    open_slots = people_required - accepted
     ctx = {
         "commission": commission,
         "comments": comments,
         "jobs": jobs,
-        "people_required":people_required
+        "people_required":people_required,
+        "open_slots": open_slots
     }
 
     return render(request, "commission_detail.html", ctx)
