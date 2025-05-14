@@ -29,7 +29,7 @@ def commission_detail(request, pk):
     
     commission = get_object_or_404(Commission, pk=pk)
     comments = Comments.objects.filter(commission=commission)
-    jobs = Job.objects.all()
+    jobs = Job.objects.filter(commission=commission)
 
     ctx = {
         "commission": commission,
