@@ -11,58 +11,57 @@
 <h1 class="app-header">COMMISSIONS</h1> <br>
 <div class = main-content>
     <h2>Complete List</h2>
-
+        <h3><a href="/commissions/add">Create Commission</a></h3>
     {% if user.is_authenticated %}
         <h2 class="com-header">Created Commissions</h2>
         <div class="coms">
-            <h3><a href="/commissions/add">Create Commission</a></h3>
             <ul>
                 {% for commission in object_list %}
                     {% if user.profile ==  commission.author%} 
-                        <h3><a href="{{commission.get_absolute_url}}">{{commission.title}}</a></h3>
-                        <li>Created on: {{commission.created_on}}</li>     
-                        <br>
+                        <div class="entry">
+                            <h3><a href="{{commission.get_absolute_url}}">{{commission.title}}</a></h3>
+                            <li>Created on: {{commission.created_on}}</li>  
+                            <li>Status: {{commission.get_status_display}}</li>   
+                            <br>
+                        </div>
                     {% endif %}
-
-                {% endfor %}
+                {% endfor %} 
             </ul>
         </div>
-        <div class="coms">
         <h2 class="com-header">Applied Commissions</h2>
-        <ul>
-            {% for app in applications %}
-            {% if app.applicant == user.profile%}
-                {% for job in jobs %}
-                {% if app.job == job %}
-                    {% for com in commissions %}
-                    {% if job.commission == com %}
-                        <h3><a href="{{com.get_absolute_url}}">{{com.title}} ({{job.role}})</a></h3>
-                        <li>Applied on: {{app.applied_on}}</li>                     
-                        <br>
+        <div class="coms">
+            <ul>
+                {% for app in applications %}
+                {% if app.applicant == user.profile%}
+                    {% for job in jobs %}
+                    {% if app.job == job %}
+                        {% for com in commissions %}
+                        {% if job.commission == com %}
+                            <div class ="entry">
+                            <h3><a href="{{com.get_absolute_url}}">{{com.title}} ({{job.role}})</a></h3>
+                            <li>Applied on: {{app.applied_on}}</li>   
+                            <li>Status: {{com.get_status_display}}</li>                         
+                            <br>
+                            </div>
+                        {% endif %}
+                        {% endfor %}
                     {% endif %}
                     {% endfor %}
                 {% endif %}
                 {% endfor %}
-            {% endif %}
-            {% endfor %}
-            {% for commission in object_list %}
-                {% if user.profile ==  commission.title%} 
-                    <h3><a href="{{commission.get_absolute_url}}">{{commission.title}}</a></h3>
-                    <li>Created on: {{commission.created_on}}</li>                     
-                    <br>
-                {% endif %}
-            {% endfor %}
-        </ul>
-    {% endif %}
+            </ul>
         </div>
+    {% endif %}
+        <h2 class="com-header">All Commissions</h2>
         <div class="coms">
-            <h2 class="com-header">All Commissions</h2>
             <ul>
                 {% for commission in object_list %}
-                <h3><a href="{{commission.get_absolute_url}}">{{commission.title}}</a></h3>
-                <li>Created on: {{commission.created_on}}</li>
-                <li>egg {{commission.status}}</li>                
-                <br>
+                    <div class ="entry">
+                        <h3><a href="{{commission.get_absolute_url}}">{{commission.title}}</a></h3>
+                        <li>Created on: {{commission.created_on}}</li>
+                        <li>Status: {{commission.get_status_display}}</li>                
+                        <br>
+                    </div>
                 {% endfor %}
             </ul>
         </div>

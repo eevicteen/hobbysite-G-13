@@ -8,16 +8,18 @@
 {% endblock %}
 
 {% block content %}
-<h1>COMMISSIONS</h1> <br>
-<h2>Create</h2>
-
+<h1 class="app-header">COMMISSIONS</h1> <br>
+<div class = main-content>
+<h2 class="com-header">Create a New Commission</h2>
+<div class="coms">
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    <h2>Create Commission: </h2>
+    <h2>Commission Details: </h2>
     {{ commission_form.as_p }}
-    <h2>Create Jobs: </h2>
+    <h2>Job Details: </h2>
     {{job_form1.as_p}} <br>
 
     <button type="submit" value="submit">Submit</button>
 </form>
+</div>
 {% endblock %}
