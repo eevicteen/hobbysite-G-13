@@ -14,20 +14,32 @@ body {
     margin: 0;
     padding: 20px;
 }
-
-.created-coms {
-    background-color: green;
+.com-header{
+    background-color: #007bff;
+    padding: 20px;
+    margin-right: 5%;
+    margin-left: 5%;
+    margin-bottom: 0%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+.coms {
+    background-color: #f7f7f7;
+    padding: 20px;
+    margin-right: 5%;
+    margin-left: 5%;
+    margin-bottom: 5%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* .main-content {
-    margin-right: 25px;
-    margin-left: 25px;
+.main-content {
+    margin-right: 10%;
+    margin-left: 10%;
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
- Titles and error message */
+ /*Titles and error message */
 /* .page-title {
     text-align: center;
     font-size: 2em;
