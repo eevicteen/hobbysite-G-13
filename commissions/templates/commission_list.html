@@ -7,7 +7,7 @@
 <h1>COMMISSIONS</h1>
 {% if user.is_authenticated %}
     <h3><a href="/commissions/add">Create Commission</a></h3>
-    <h2>Created Commissions {{user.profile}}</h2>
+    <h2>Created Commissions</h2>
     <ul>
         {% for commission in object_list %}
             {% if user.profile ==  commission.author%} 
@@ -18,7 +18,7 @@
 
         {% endfor %}
     </ul>
-    <h2>Applied Commissions {{user.profile}}</h2>
+    <h2>Applied Commissions</h2>
     <ul>
         {% for app in applications %}
         {% if app.applicant == user.profile%}
