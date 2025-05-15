@@ -2,6 +2,7 @@
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 from django.views.generic.list import ListView
 
 from .models import Commission,Comments, Job, JobApplication
@@ -23,13 +24,12 @@ class CommissionListView(ListView):
         context["applications"] = applications
         return context
 
-
+@login_required
 def commission_detail(request, pk):
     """Return commission_detail html file with apt context."""
     
     commission = get_object_or_404(Commission, pk=pk)
-    selected_job = get_object_or_404(Job, pk=pk)
-    form = JobApplicationForm()
+    # form = JobApplicationForm()
     job_application = 0
 
     comments = Comments.objects.filter(commission=commission)
@@ -51,11 +51,10 @@ def commission_detail(request, pk):
             job_application = form.save(commit=False)
             job_id = request.POST.get("job_id")
             job_application.job = get_object_or_404(Job, id=job_id)
+            print(job_application.job)
             job_application.applicant = request.user.profile
             job_application.save()
     
- 
-
     ctx = {
         "commission": commission,
         "comments": comments,
@@ -64,8 +63,12 @@ def commission_detail(request, pk):
         "open_slots": open_slots,
         "applicants": applicants
     }
-
-    return redirect('/commissions/list', pk=commission.pk)
+    return redirect('/commissions/detail', pk=commission.pk)
+    # return render(request, "commission_detail.html", ctx)
+    # return redirect('commissions:commission-detail', pk=commission.pk)
+    # return redirect('/commissions/detail/',{{commission.pk}})
+    # return redirect('/commissions/list', pk=commission.pk)
+    # return redirect('/commissions/list', pk=commission.pk)
 
 #@login_required
 def create_commission(request):
