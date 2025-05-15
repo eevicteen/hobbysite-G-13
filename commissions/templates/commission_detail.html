@@ -8,6 +8,9 @@
 <ul>
     <a href="{% url 'commissions:commissions-list' %}">Commission List</a>
     <p>TITLE: <br> {{commission.title}}</p>
+    {% if user.profile == commission.author %}
+        <a href="{% url 'commissions:commission-edit' commission.pk %}">Edit Commission</a>
+    {% endif %}
     <p>JOBS:
         {% for job in jobs %}
             <br> <li>{{job.role}}</li>
