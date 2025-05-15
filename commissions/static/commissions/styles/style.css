@@ -1,4 +1,13 @@
 /* General page styling */
+
+.app-header {
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    font-size: 2em;
+}
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f7f7f7;
@@ -6,7 +15,11 @@ body {
     padding: 20px;
 }
 
-.main-content {
+.created-coms {
+    background-color: green;
+}
+
+/* .main-content {
     margin-right: 25px;
     margin-left: 25px;
     background-color: #fff;
@@ -15,7 +28,7 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 /* Titles and error message */
-.page-title {
+/* .page-title {
     text-align: center;
     font-size: 2em;
     color: white;
@@ -160,4 +173,4 @@ body {
     margin-right:2px;
     display: inline-block; 
     width: auto; 
-}
+}  */ */
