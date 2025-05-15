@@ -72,9 +72,8 @@ def create_commission(request):
     job_form2 = JobCreateForm()
     if request.method == 'POST':
         commission_form = CommissionCreateForm(request.POST)
-        job_form1 = JobCreateForm(request.POST)
-        job_form2 = JobCreateForm(request.POST)
-        if commission_form.is_valid() and job_form1.is_valid() and job_form2.is_valid():
+        job_form1 = JobCreateForm(request.POST, prefix='job_form1')
+        if all([commission_form.is_valid(), job_form1.is_valid()]):
             commission = commission_form.save(commit=False)
             commission.author = request.user.profile
             commission.save()
@@ -82,13 +81,6 @@ def create_commission(request):
             job1 = job_form1.save(commit=False)
             job1.commission = commission
             job1.save()
-            print(f"Job1 '{job1.role}' saved.")
-            job2 = job_form2.save(commit=False)
-            job2.commission = commission
-            job2.save()
-            print(f"Job2 '{job2.role}' saved.")
-            print(f"Job1 form data: {job_form1.cleaned_data}")
-            print(f"Job2 form data: {job_form2.cleaned_data}")
             return redirect('/commissions/list', pk=commission.pk)
     ctx = {
                 "commission_form": commission_form,
