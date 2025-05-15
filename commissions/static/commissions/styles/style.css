@@ -27,7 +27,7 @@ body {
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
-/* Titles and error message */
+ Titles and error message */
 /* .page-title {
     text-align: center;
     font-size: 2em;
@@ -61,7 +61,7 @@ body {
     
 }
 
-/* Product List View */
+/* Product List View 
 .product-list {
     display:grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -94,7 +94,7 @@ body {
     margin-top:20px
 }
 
-/*Product Detail View*/
+/*Product Detail View
 .product-detail {
     display: flex;
     flex-direction: row;
@@ -140,7 +140,7 @@ body {
     color: #141414
 }
 
-/* Button */
+/* Button 
 .btn {
     background-color: #007bff;
     color: white;
@@ -173,4 +173,4 @@ body {
     margin-right:2px;
     display: inline-block; 
     width: auto; 
-}  */ */
+}  */ 
