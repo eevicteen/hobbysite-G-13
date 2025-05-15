@@ -1,8 +1,8 @@
 """Direct users to appropriate urls depending on needs."""
 
 from django.urls import path
-from .views import product_list, product_detail, create_product, cart_list, edit_product, transactions_list, edit_cart_item
-
+from .views import product_list, product_detail, create_product
+from .views import cart_list, edit_product, transactions_list, edit_cart_item
 
 urlpatterns = [
 
