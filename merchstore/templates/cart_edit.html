@@ -1,40 +1,36 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %} 
-    Edit Cart Item
+{% block title %}
+Edit Cart Item
 {% endblock %}
 
 {% load static %}
 {% block head %}
-    <link rel="stylesheet" href="{% static 'merchstore/styles/style.css' %}">
+<link rel="stylesheet" href="{% static 'merchstore/styles/style.css' %}">
 {% endblock %}
 
 {% block content %}
 <h1 class="page-title">MERCHSTORE</h1>
 <h2 class="error-message">{{ error_message }}</h2>
 
-<div class="user-info">
-    <p><strong>Logged in user:</strong> {{ user.username }}</p>
-    <div class="user-product">
-    <p><a href="{% url 'merchstore:cart-list' %}" class="btn">View Cart</a></p>
-    <p><a href="{% url 'merchstore:product-list' %}" class="btn">View Items</a></p>
-    <p><a href="{% url 'merchstore:transactions' %}" class="btn">View Transactions</a></p>
+<div class="user-product">
+    <a href="{% url 'merchstore:cart-list' %}" class="btn">View Cart</a>
+    <a href="{% url 'merchstore:product-list' %}" class="btn">View Items</a>
+    <a href="{% url 'merchstore:transactions' %}" class="btn">View Transactions</a>
 </div>
-</div>
-
 
 <div class="main-content">
 
-<div class="section-title">Edit Product</div>
-<p class="product-generic">Product: {{ product.name }}</p>
-<p class="product-generic">Current Quantity: {{ transaction.amount }}</p>
+    <div class="section-title">Edit Product</div>
+    <p class="product-generic">Product: {{ product.name }}</p>
+    <p class="product-generic">Current Quantity: {{ transaction.amount }}</p>
 
-<form method="POST">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Update Cart</button>
-</form>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update Cart</button>
+    </form>
 
 </div>
 

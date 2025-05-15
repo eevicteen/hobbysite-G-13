@@ -3,27 +3,25 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 
-from .models import Product, Transaction
+from .models import Product, Transaction, ProductType
 from .forms import ProductCreateForm, TransactionForm, ProductEditForm
+
+from user_management.models import Profile
 
 
 def product_list(request):
     """Return product_list html file with apt context."""
     products = Product.objects.all()
-    user_products = Product.objects.filter(
-        owner=request.user.profile
-    )
-    user_product_types = set()
-    for product in user_products:
-        user_product_types.add(product.product_type)
+    user_products = Product.objects.filter(owner=request.user.profile)
+    other_products = Product.objects.exclude(owner=request.user.profile)
 
-    other_products = Product.objects.exclude(
-        owner=request.user.profile,
-    )
+    user_product_types = ProductType.objects.filter(
+        product__in=user_products
+    ).distinct()
 
-    other_product_types = set()
-    for product in other_products:
-        other_product_types.add(product.product_type)
+    other_product_types = ProductType.objects.filter(
+        product__in=other_products
+    ).distinct()
 
     ctx = {
         "products": products,
@@ -39,23 +37,23 @@ def product_list(request):
 @login_required
 def cart_list(request):
     """Return cart_list html file with apt context."""
-    sellers = set()
+        
     items_on_cart = Transaction.objects.filter(
         buyer=request.user.profile,
         status='on_cart'
     )
 
-    total_price = 0
-    for item in items_on_cart:
-        sellers.add(item.product.owner)
-        total_price += item.amount * item.product.price
+    seller_ids = items_on_cart.values_list('product__owner__id', flat=True).distinct()
+
+    sellers = Profile.objects.filter(id__in=seller_ids)
+
+    total_price = sum(item.amount * item.product.price for item in items_on_cart)
 
     ctx = {
         "items_on_cart": items_on_cart,
         "sellers": sellers,
         "total_price": total_price,
     }
-
     return render(request, "cart_list.html", ctx)
 
 
@@ -148,17 +146,14 @@ def edit_product(request, pk):
 
 @login_required
 def transactions_list(request):
-    """Return transactions_list html file with apt context."""
-    buyers = set()
-    projected_earnings = 0
     transactions_sold = Transaction.objects.filter(
-        product__owner=request.user.profile,
-        status='on_cart'
-    )
+            product__owner=request.user.profile,
+            status='on_cart'
+        )
 
-    for item in transactions_sold:
-        buyers.add(item.buyer)
-        projected_earnings += item.amount * item.product.price
+    buyer_ids = transactions_sold.values_list('buyer__id', flat=True).distinct()
+    buyers = Profile.objects.filter(id__in=buyer_ids)
+    projected_earnings = sum(item.amount * item.product.price for item in transactions_sold)
 
     ctx = {
         "transactions_sold": transactions_sold,
