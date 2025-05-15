@@ -80,7 +80,7 @@ def create_commission(request):
 
 @login_required
 def edit_commission(request,pk):
-    product = get_object_or_404(Commission, pk=pk)
+    commission = get_object_or_404(Commission, pk=pk)
     form = CommissionEditForm()
     if request.method == 'POST':
         form = CommissionEditForm(request.POST, instance=product)
@@ -89,15 +89,17 @@ def edit_commission(request,pk):
             if updated_commission.owner != request.user.profile:
                 return render(request, 'product_detail.html', {
                     'form': form,
-                    'product': product,
+                    'commission': commission,
                     'error_message': "You are not authorized to edit this product."
                 })
             updated_commission.status = 'out_of_stock' if updated_product.stock == 0 else 'available'
             updated_commission.save()
-            return redirect('merchstore:product-detail', pk=product.pk)
+            return redirect('commission:commission-detail', pk=commission.pk)
     else:
-        form = CommissionEditForm(instance=product)
+        form = CommissionEditForm(instance=commission)
 
-    ctx = {"form": form, "product":product}
-    return render(request, 'product_create.html', ctx)
+    ctx = {"form": form, "commission":commission}
+    # return render(request, 'product_create.html', ctx)
+    return render(request, "commission_detail.html", ctx)
+
 
