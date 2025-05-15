@@ -34,7 +34,6 @@ class Article(models.Model):
 
     def __str__(self):
         """Return the name of the Article itself."""
-
         return self.title
 
     class Meta:
@@ -60,7 +59,7 @@ class Comment(models.Model):
 
 class ArticleImage(models.Model):
     """Create ArticleImage model with appropriate fields."""
-    
+
     image = models.ImageField(upload_to='recipe_images/', null=False)
     description = models.TextField(max_length=255)
     article = models.ForeignKey(
