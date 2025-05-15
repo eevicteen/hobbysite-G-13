@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %} Commission List {% endblock %}
+{% block title %} Commissions {% endblock %}
 
 {% block content %}
-<h1>COMMISSION DETAIL</h1>
+<h1>COMMISSIONS</h1> <br>
+<h2>Detail</h2>
 <ul>
     <a href="{% url 'commissions:commissions-list' %}">Commission List</a>
     <p>TITLE: <br> {{commission.title}}</p>

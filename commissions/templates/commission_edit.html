@@ -1,18 +1,15 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %} 
-    Edit Commission
-{% endblock %}
+{% block title %} Commissions {% endblock %}
 
-{% load static %}
 {% block head %}
-    <link rel="stylesheet" href="{% static 'commssions/styles/style.css' %}">
+    <link rel="stylesheet" href="{% static 'commissions/styles/style.css' %}">
 {% endblock %}
 
 {% block content %}
-<h1 class="page-title">COMMISSIONS</h1>
-<h2 class="error-message">{{ error_message }}</h2>
+<h1>COMMISSIONS</h1> <br>
+<h2>Update</h2>
 
 <div class="user-info">
     <p><strong>Logged in user:</strong> {{ user.username }}</p>

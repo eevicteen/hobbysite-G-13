@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %} Commissions - Hobby Site {% endblock %}
+{% block title %} Commissions {% endblock %}
 
 {% block content %}
-<h1>COMMISSIONS</h1>
+<h1>COMMISSIONS</h1> <br>
+<h2>List</h2>
 {% if user.is_authenticated %}
     <h3><a href="/commissions/add">Create Commission</a></h3>
     <h2>Created Commissions</h2>
