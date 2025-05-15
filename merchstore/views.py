@@ -12,16 +12,25 @@ from user_management.models import Profile
 def product_list(request):
     """Return product_list html file with apt context."""
     products = Product.objects.all()
-    user_products = Product.objects.filter(owner=request.user.profile)
-    other_products = Product.objects.exclude(owner=request.user.profile)
 
-    user_product_types = ProductType.objects.filter(
-        product__in=user_products
-    ).distinct()
+    user_products = Product.objects.none()
+    other_products = products
 
-    other_product_types = ProductType.objects.filter(
-        product__in=other_products
-    ).distinct()
+    if request.user.is_authenticated:
+        user_profile = request.user.profile
+        user_products = Product.objects.filter(owner=user_profile)
+        other_products = Product.objects.exclude(owner=user_profile)
+
+        user_product_types = ProductType.objects.filter(
+            product__in=user_products
+        ).distinct()
+        other_product_types = ProductType.objects.filter(
+            product__in=other_products
+        ).distinct()
+    else:
+        user_product_types = ProductType.objects.none()
+        other_product_types = ProductType.objects.filter(
+            product__in=other_products).distinct()
 
     ctx = {
         "products": products,
@@ -37,17 +46,19 @@ def product_list(request):
 @login_required
 def cart_list(request):
     """Return cart_list html file with apt context."""
-        
+
     items_on_cart = Transaction.objects.filter(
         buyer=request.user.profile,
         status='on_cart'
     )
 
-    seller_ids = items_on_cart.values_list('product__owner__id', flat=True).distinct()
+    seller_ids = items_on_cart.values_list(
+        'product__owner__id', flat=True).distinct()
 
     sellers = Profile.objects.filter(id__in=seller_ids)
 
-    total_price = sum(item.amount * item.product.price for item in items_on_cart)
+    total_price = sum(
+        item.amount * item.product.price for item in items_on_cart)
 
     ctx = {
         "items_on_cart": items_on_cart,
@@ -147,13 +158,15 @@ def edit_product(request, pk):
 @login_required
 def transactions_list(request):
     transactions_sold = Transaction.objects.filter(
-            product__owner=request.user.profile,
-            status='on_cart'
-        )
+        product__owner=request.user.profile,
+        status='on_cart'
+    )
 
-    buyer_ids = transactions_sold.values_list('buyer__id', flat=True).distinct()
+    buyer_ids = transactions_sold.values_list(
+        'buyer__id', flat=True).distinct()
     buyers = Profile.objects.filter(id__in=buyer_ids)
-    projected_earnings = sum(item.amount * item.product.price for item in transactions_sold)
+    projected_earnings = sum(
+        item.amount * item.product.price for item in transactions_sold)
 
     ctx = {
         "transactions_sold": transactions_sold,

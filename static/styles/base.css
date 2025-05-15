@@ -6,14 +6,13 @@
   margin-left: 0px;
   margin-right: 0px;
   padding: 20px 100px;
-  background: teal;
+  background: #0056b3;
   display: flex;
   justify-content: space-between;
   align-content: center;
 }
 
 .name {
-  font-family: "Bebas Neue", sans-serif;
   font-size: 32px;
   color: white;
   text-decoration: none;

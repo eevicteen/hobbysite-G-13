@@ -137,6 +137,11 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_URL = 'static/'
+ALLOWED_HOSTS= ["*"]
+
+LOGIN_URL = '/profile/login/'
+LOGOUT_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
