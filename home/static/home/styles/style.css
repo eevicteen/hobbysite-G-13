@@ -1,8 +1,10 @@
-* {
-margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 20px;
 }
+
 .bannercontainer{
   position: relative;
   text-align: center;
@@ -24,7 +26,9 @@ margin: 0;
 }
 .GroupText{
   padding: 10px;
-  background-color: teal;
+  background-color: #007bff;
+  border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 .GroupText a{
   font-family: "Bebas Neue", sans-serif;
@@ -41,6 +45,7 @@ margin: 0;
   justify-content: space-evenly;
   flex-wrap: wrap;
   gap: 10px;
+  
 }
 
 .col {
@@ -48,8 +53,9 @@ margin: 0;
   padding-top: 10px;
   display: flex;
   flex-direction: column;
-  border: 1px solid black;
   align-items: center;
+  border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .col img {
@@ -76,7 +82,7 @@ p{
   font-size: 40px;
   padding: 10px;
   margin-bottom: 30px;
-  background-color: teal;
+  background-color: #007bff;
   justify-content: center;
   align-content: center;
   color: white;
