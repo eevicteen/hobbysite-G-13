@@ -19,9 +19,9 @@
     
 </div>
 <div class="user-commissions">
-    <p><a href="{% url 'merchstore:cart-list' %}" class="btn">View Cart</a></p>
+    {% comment %} <p><a href="{% url 'merchstore:cart-list' %}" class="btn">View Cart</a></p>
     <p><a href="{% url 'merchstore:product-list' %}" class="btn">View Items</a></p>
-    <p><a href="{% url 'merchstore:transactions' %}" class="btn">View Transactions</a></p>
+    <p><a href="{% url 'merchstore:transactions' %}" class="btn">View Transactions</a></p> {% endcomment %}
 </div>
 <div class="section-title">Edit Product</div>
 <p class="product-generic">Product: {{ product.name }}</p>
