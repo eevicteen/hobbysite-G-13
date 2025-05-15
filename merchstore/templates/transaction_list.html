@@ -16,14 +16,15 @@
 
 <div class="user-info">
     <p><strong>Logged in user:</strong> {{ user.username }}</p>
-    
-</div>
-<div class="user-product">
+    <div class="user-product">
     <p><a href="{% url 'merchstore:cart-list' %}" class="btn">View Cart</a></p>
     <p><a href="{% url 'merchstore:product-list' %}" class="btn">View Items</a></p>
     <p><a href="{% url 'merchstore:transactions' %}" class="btn">View Transactions</a></p>
 </div>
 
+</div>
+
+<div class="main-content">
 <p class="product-generic">Total Value: {{projected_earnings}}</p>
 <h2 class="section-title">Transactions Made as Seller:</h2>
 
@@ -47,5 +48,6 @@
     {% endfor %}
     </div>
 {% endfor %}
+</div>
 
 {% endblock %}

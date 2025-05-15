@@ -13,17 +13,20 @@
 {% block content %}
 <h1 class="page-title">MERCHSTORE</h1>
 <h2 class="error-message">{{ error_message }}</h2>
-
 <div class="user-info">
     <p><strong>Logged in user:</strong> {{ user.username }}</p>
-    
-</div>
-<div class="user-product">
+    <div class="user-product">
     <p><a href="{% url 'merchstore:product-create' %}" class="btn">Create New Product</a></p>
     <p><a href="{% url 'merchstore:cart-list' %}" class="btn">View Cart</a></p>
     <p><a href="{% url 'merchstore:product-list' %}" class="btn">View Items</a></p>
     <p><a href="{% url 'merchstore:transactions' %}" class="btn">View Transactions</a></p>
 </div>
+
+</div>
+
+
+<div class="main-content">
+
 <h2 class="section-title">User's Products:</h2>
 {% for product_type in user_product_types %}
     <h3 class="product-type-title">{{ product_type.name }}</h3>
@@ -67,4 +70,5 @@
     
             </div>
 {% endfor %}
+</div>
 {% endblock %}

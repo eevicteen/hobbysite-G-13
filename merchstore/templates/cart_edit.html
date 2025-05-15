@@ -16,13 +16,16 @@
 
 <div class="user-info">
     <p><strong>Logged in user:</strong> {{ user.username }}</p>
-    
-</div>
-<div class="user-product">
+    <div class="user-product">
     <p><a href="{% url 'merchstore:cart-list' %}" class="btn">View Cart</a></p>
     <p><a href="{% url 'merchstore:product-list' %}" class="btn">View Items</a></p>
     <p><a href="{% url 'merchstore:transactions' %}" class="btn">View Transactions</a></p>
 </div>
+</div>
+
+
+<div class="main-content">
+
 <div class="section-title">Edit Product</div>
 <p class="product-generic">Product: {{ product.name }}</p>
 <p class="product-generic">Current Quantity: {{ transaction.amount }}</p>
@@ -32,5 +35,7 @@
   {{ form.as_p }}
   <button type="submit">Update Cart</button>
 </form>
+
+</div>
 
 {% endblock %}

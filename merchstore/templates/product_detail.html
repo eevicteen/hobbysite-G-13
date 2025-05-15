@@ -16,16 +16,16 @@
 
 <div class="user-info">
     <p><strong>Logged in user:</strong> {{ user.username }}</p>
-    
-</div>
-<div class="user-product">
+    <div class="user-product">
     <p><a href="{% url 'merchstore:cart-list' %}" class="btn">View Cart</a></p>
     <p><a href="{% url 'merchstore:product-list' %}" class="btn">View Items</a></p>
     <p><a href="{% url 'merchstore:transactions' %}" class="btn">View Transactions</a></p>
 </div>
+</div>
 
+
+<div class="main-content">
 <h2 class="section-title">Product Details</h2>
-
 
 <div class="product-detail">
     {% if product.image %}
@@ -51,7 +51,7 @@
     {% csrf_token %}
     {{ form }}
     {% if product.stock == 0 %}
-    <button type="submit" disabled class="btn">Add to Cart</button>
+    <button type="submit" disabled class="btn-disabled">Add to Cart</button>
     {% else %}
     <button type="submit" value="submit" class="btn">Add to Cart</button>
     {% endif %}
@@ -59,4 +59,6 @@
 {% else %}
 <a href="{% url 'merchstore:product-edit' product.pk %}" class="btn">Edit Product</a>
 {% endif %}
+</div>
+
 {% endblock %}
