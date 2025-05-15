@@ -1,29 +1,27 @@
 """Receives web requests and returns the necessary web response."""
 
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 
-from .models import Product, ProductType, Transaction
+from .models import Product, Transaction
 from .forms import ProductCreateForm, TransactionForm, ProductEditForm
 
 
 def product_list(request):
     """Return product_list html file with apt context."""
-
     products = Product.objects.all()
     user_products = Product.objects.filter(
         owner=request.user.profile
     )
-    user_product_types=set()
+    user_product_types = set()
     for product in user_products:
         user_product_types.add(product.product_type)
 
     other_products = Product.objects.exclude(
-        owner= request.user.profile,
+        owner=request.user.profile,
     )
 
-    other_product_types=set()
+    other_product_types = set()
     for product in other_products:
         other_product_types.add(product.product_type)
 
@@ -62,6 +60,7 @@ def cart_list(request):
 
 
 def product_detail(request, pk):
+    """Return product_detail html file with apt context."""
     product = get_object_or_404(Product, pk=pk)
     form = TransactionForm()
     if request.method == 'POST':
@@ -75,7 +74,9 @@ def product_detail(request, pk):
             return render(request, 'product_detail.html', {
                 'form': form,
                 'product': product,
-                'error_message': f"Cannot add more than {product.stock} item(s) to the cart."
+                'error_message': (
+                    f"Cannot add more than {product.stock} item(s) to the cart."
+                ),
             })
         elif transaction.amount == 0:
             return render(request, 'product_detail.html', {
@@ -105,6 +106,7 @@ def product_detail(request, pk):
 
 @login_required
 def create_product(request):
+    """Return product_create html file with apt context."""
     form = ProductCreateForm()
     if request.method == 'POST':
         form = ProductCreateForm(request.POST, request.FILES)
@@ -119,6 +121,7 @@ def create_product(request):
 
 @login_required
 def edit_product(request, pk):
+    """Return product_create html file with apt context."""
     product = get_object_or_404(Product, pk=pk)
     form = ProductEditForm()
     if request.method == 'POST':
@@ -129,7 +132,9 @@ def edit_product(request, pk):
                 return render(request, 'product_detail.html', {
                     'form': form,
                     'product': product,
-                    'error_message': "You are not authorized to edit this product."
+                    'error_message': (
+                        "You are not authorized to edit this product."
+                    ),
                 })
             updated_product.status = 'out_of_stock' if updated_product.stock == 0 else 'available'
             updated_product.save()
@@ -143,6 +148,7 @@ def edit_product(request, pk):
 
 @login_required
 def transactions_list(request):
+    """Return transactions_list html file with apt context."""
     buyers = set()
     projected_earnings = 0
     transactions_sold = Transaction.objects.filter(
@@ -165,6 +171,7 @@ def transactions_list(request):
 
 @login_required
 def edit_cart_item(request, pk):
+    """Return cart_edit html file with apt context."""
     transaction = get_object_or_404(
         Transaction, pk=pk, buyer=request.user.profile, status='on_cart')
     product = transaction.product
@@ -177,7 +184,8 @@ def edit_cart_item(request, pk):
             new_transaction = form.save(commit=False)
 
             if new_transaction.amount > total_product:
-                return render(request, 'cart_list.html', get_cart_context(request.user, f"Cannot add more than {total_product} item(s)."))
+                return render(request, 'cart_list.html', get_cart_context(request.user,
+                                                                          f"Cannot add more than {total_product} item(s)."))
             elif new_transaction.amount == 0:
                 product.stock += old_amount
                 product.save()
@@ -198,10 +206,12 @@ def edit_cart_item(request, pk):
     else:
         form = TransactionForm(instance=transaction)
 
-    return render(request, 'cart_edit.html', {'form': form, 'transaction': transaction, 'product': product})
+    return render(request, 'cart_edit.html', {'form': form,
+                                              'transaction': transaction, 'product': product})
 
 
 def get_cart_context(user, error_message=None):
+    """Return cart context."""
     items_on_cart = Transaction.objects.filter(
         buyer=user.profile, status='on_cart')
     sellers = set(item.product.owner for item in items_on_cart)

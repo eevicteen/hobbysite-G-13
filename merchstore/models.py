@@ -14,7 +14,6 @@ class ProductType(models.Model):
 
     def __str__(self):
         """Return the name of the Product Type."""
-
         return self.name
 
     class Meta:
@@ -48,17 +47,15 @@ class Product(models.Model):
     ]
     status = models.CharField(
         max_length=20, choices=STATUS_CHOICES, default='available')
-    
+
     image = models.ImageField(upload_to='images/', null=True)
 
     def __str__(self):
         """Return the name of the Product."""
-
         return self.name
 
     def get_absolute_url(self):
         """Return the url of the Product."""
-
         return reverse('merchstore:product-detail', args=[self.pk])
 
     class Meta:
@@ -68,6 +65,8 @@ class Product(models.Model):
 
 
 class Transaction(models.Model):
+    """Create Transaction Model with appropriate fields."""
+
     buyer = models.ForeignKey(
         Profile,
         on_delete=models.SET_NULL,
