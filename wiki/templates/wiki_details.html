@@ -2,13 +2,117 @@
 
 {% load static %}
 
-{% block title %}{{article.title}}{% endblock %}
+{% block title %}{{ article.title }}{% endblock %}
 
 {% block content %}
-    <h1>{{article.title}}</h1>
-    <p>Category: {{article.category.name}}</p>
-    <p>Created on {{article.created_on}}</p>
-    <p>Last updated on {{article.updated_on}}</p>
-    <p>{{article.entry}}</p>
-    <a href="{% url 'wiki:article_list' %}">Return to Articles</a>
+
+<style>
+    ul, div {
+        text-align: center;
+        list-style-type: none;
+        padding-left: 0;
+    }
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding-top: 20px;
+    }
+    .box {
+        max-width: 800px;
+        width: 80%;
+        padding: 10px;
+        background-color: rgba(0, 123, 255, 0.05);
+        border-radius: 10px;
+        border: 1px solid rgba(0, 123, 255, 0.10);
+        box-shadow: 0px 5px 5px rgba(0, 123, 255, 0.10);
+        text-align: center;
+    }
+    .box h1 {
+        margin-top: 5px;
+        color: #007bff;
+        margin-bottom: 5px;
+    }
+    .box ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    .box li {
+        margin: 5px 0;
+    }
+</style>
+
+<div>
+    <div class="container">
+        <div class="box">
+            <p><strong>|| {{ article.category.name }} ||</strong></p>
+            <h1>{{ article.title }}</h1>
+            <p>by <strong>{{ article.author }}</strong></p>
+        </div>
+    </div>
+
+    <p><strong>Created on:</strong> {{ article.created_on }} | <strong>Updated on:</strong> {{ article.updated_on }}</p>
+
+    {% if request.user.is_authenticated and request.user.profile == article.author %}
+        <p><a href="{% url 'wiki:article_update' article.pk %}">Edit Article</a></p>
+    {% endif %}
+    
+    {% if article.header_image %}
+        <img src="{{ article.header_image.url }}" alt="Article Header">
+    {% endif %}
+
+    <div class="container">
+        <div class="box">
+            <p>{{ article.entry }}</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="box">
+            <h2>Read more from {{ article.category.name }}</h2>
+            <ul>
+                {% for more_article in more_articles %}
+                <li>
+                    <a href="{{ more_article.get_absolute_url }}">{{ more_article.title }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <br><a href="{% url 'wiki:article_list' %}">Back to the Article List</a></br>
+
+    {% if comment_form %}
+        <h2>Comment</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ comment_form.entry }}
+            <p>
+            <button type="submit">Post Comment</button>
+            </p>
+        </form>
+    {% endif %}
+
+    <div class="container">
+        <div class="box">
+            <h2>Comment Section</h2>
+            <ul>
+                {% for comment in comments %}
+                    <li>
+                        <p><strong>{{ comment.author }}</strong>: {{ comment.entry }}</p>
+                        <p>
+                            <small>Posted on {{ comment.created_on }} | Updated on {{ comment.updated_on }}
+                            {% if request.user.is_authenticated and request.user.profile == comment.author %}
+                                <a href="{% url 'wiki:comment_edit' comment.pk %}">Edit</a>
+                            {% endif %}
+                            </small>
+                        </p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

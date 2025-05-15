@@ -2,15 +2,21 @@
 
 {% load static %}
 
-{% block title %}Wiki{% endblock %}
+{% block title %}Create New Article{% endblock %}
 
 {% block content %}
 
 <style>
-    * {
+    ul, div {
         text-align: center;
         list-style-type: none;
         padding-left: 0;
+        margin-bottom: 8px;
+    }
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
     }
     .container {
         display: flex;
@@ -43,31 +49,18 @@
     }
 </style>
 
-<div class="container">
-    <div class="box">
-        <h1>Wiki Articles</h1>
-        {% if user.is_authenticated %}
-            <p><a href="{% url 'wiki:article_create' %}">Create Article</a></p>
-        {% endif %}
+<div>
+    <div class="container">
+        <div class="box">
+            <h1>Create New Article</h1>
+        </div>
     </div>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Post</button>
+    </form>
+    <a href="{% url 'wiki:article_list' %}">Back to Article List</a>
 </div>
-
-<div class="container">
-    {% for category in articlecategory %}
-        <section class="box">
-            <h2>{{ category.name }}</h2>
-            <p>{{ category.description }}</p>
-            <ul>
-                {% for article in category.articles.all %}
-                <li>
-                    <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
-                </li>
-                {% endfor %}
-            </ul>
-        </section>
-    {% endfor %}
-</div>
-
-
 
 {% endblock %}
