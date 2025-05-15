@@ -1,49 +1,49 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %} 
-    View Cart
+{% block title %}
+View Cart
 {% endblock %}
 
 {% load static %}
 {% block head %}
-    <link rel="stylesheet" href="{% static 'merchstore/styles/style.css' %}">
+<link rel="stylesheet" href="{% static 'merchstore/styles/style.css' %}">
 {% endblock %}
 
 {% block content %}
 <h1 class="page-title">MERCHSTORE</h1>
 <h2 class="error-message">{{ error_message }}</h2>
 
-<div class="user-info">
-    <p><strong>Logged in user:</strong> {{ user.username }}</p>
-    
-</div>
 <div class="user-product">
-    <p><a href="{% url 'merchstore:cart-list' %}" class="btn">View Cart</a></p>
-    <p><a href="{% url 'merchstore:product-list' %}" class="btn">View Items</a></p>
-    <p><a href="{% url 'merchstore:transactions' %}" class="btn">View Transactions</a></p>
+    <a href="{% url 'merchstore:cart-list' %}" class="btn">View Cart</a>
+    <a href="{% url 'merchstore:product-list' %}" class="btn">View Items</a>
+    <a href="{% url 'merchstore:transactions' %}" class="btn">View Transactions</a>
 </div>
-<h2 class="section-title">Items in Cart:</h2>
-<p class="product-generic">Total Price: {{total_price}}</p>
 
-{% for seller in sellers %}
-<h3 class="product-type-title">Seller: {{seller.display_name}}</h3>
-<div class="product-list">
-    {% for item in items_on_cart %}
-    {% if item.product.owner == seller %}
-    <div class="product-item">
-        {% if item.product.image %}
-        <img src="{{ item.product.image.url }}" alt="" class="product-image">
-        {% endif %}
-        <div class="product-text">
-            <div class="product-name">{{item.product.name}}</div>
-            <div class="product-price">₱{{item.product.price}}</div>
-            <div class="product-generic">QTY: {{item.amount}}</div>
+<div class="main-content">
+    <h2 class="section-title">Items in Cart:</h2>
+    <p class="product-generic">Total Price: ₱{{total_price}}</p>
+
+    {% for seller in sellers %}
+    <h3 class="product-type-title">Seller: {{seller.display_name}}</h3>
+    <div class="product-list">
+        {% for item in items_on_cart %}
+        {% if item.product.owner == seller %}
+        <div class="product-item">
+            {% if item.product.image %}
+            <img src="{{ item.product.image.url }}" alt="" class="product-image">
+            {% endif %}
+            <div class="product-text">
+                <div class="product-name">{{item.product.name}}</div>
+                <div class="product-price">₱{{item.product.price}}</div>
+                <div class="product-generic">QTY: {{item.amount}}</div>
+            </div>
+            <a href="{% url 'merchstore:cart-item-edit' pk=item.pk %}" class="btn">Edit</a>
         </div>
-        <a href="{% url 'merchstore:cart-item-edit' pk=item.pk %}" class="btn">Edit</a>
-    </div>   
-    {% endif %}
-{% endfor %}
+        {% endif %}
+        {% endfor %}
+    </div>
+    {% endfor %}
 </div>
-{% endfor %}
+
 {% endblock %}

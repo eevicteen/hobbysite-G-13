@@ -33,8 +33,7 @@ class Product(models.Model):
     )
     owner = models.ForeignKey(
         Profile,
-        on_delete=models.SET_NULL,
-        null=True,
+        on_delete=models.CASCADE
     )
     description = models.TextField()
     price = models.DecimalField(max_digits=20, decimal_places=2)

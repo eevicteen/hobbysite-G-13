@@ -1,70 +1,77 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %} 
-    Product List
+{% block title %}
+Product List
 {% endblock %}
 
 {% load static %}
 {% block head %}
-    <link rel="stylesheet" href="{% static 'merchstore/styles/style.css' %}">
+<link rel="stylesheet" href="{% static 'merchstore/styles/style.css' %}">
 {% endblock %}
 
 {% block content %}
 <h1 class="page-title">MERCHSTORE</h1>
 <h2 class="error-message">{{ error_message }}</h2>
 
-<div class="user-info">
-    <p><strong>Logged in user:</strong> {{ user.username }}</p>
-    
-</div>
 <div class="user-product">
-    <p><a href="{% url 'merchstore:product-create' %}" class="btn">Create New Product</a></p>
-    <p><a href="{% url 'merchstore:cart-list' %}" class="btn">View Cart</a></p>
-    <p><a href="{% url 'merchstore:product-list' %}" class="btn">View Items</a></p>
-    <p><a href="{% url 'merchstore:transactions' %}" class="btn">View Transactions</a></p>
+    <a href="{% url 'merchstore:product-create' %}" class="btn">Create New Product</a>
+    <a href="{% url 'merchstore:cart-list' %}" class="btn">View Cart</a>
+    <a href="{% url 'merchstore:product-list' %}" class="btn">View Items</a>
+    <a href="{% url 'merchstore:transactions' %}" class="btn">View Transactions</a>
 </div>
-<h2 class="section-title">User's Products:</h2>
-{% for product_type in user_product_types %}
+
+<div class="product-list-wrapper">
+<div class="main-content">
+
+    <h2 class="section-title">Your Products</h2>
+    {% for product_type in user_product_types %}
     <h3 class="product-type-title">{{ product_type.name }}</h3>
 
-<div class="product-list">
-    {% for product in user_products %}
+    <div class="product-list">
+        {% for product in user_products %}
         {% if product_type == product.product_type %}
-            <div class="product-item">
-                {% if product.image %}
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
-                {% endif %}
-                <div class="product-text">
-                <a href="{{ product.get_absolute_url }}" class="product-name">{{ product.name }}</a> 
+        <div class="product-item">
+            {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+            {% endif %}
+            <div class="product-text">
+                <a href="{{ product.get_absolute_url }}" class="product-name">{{ product.name }}</a>
                 <div class="product-price">₱{{ product.price }}</div>
                 <div class="product-generic">Available Stock: {{ product.stock }}</div>
-                </div>       
             </div>
+        </div>
         {% endif %}
+        {% endfor %}
+    </div>
+    {% endfor %}
+
+   
+</div>
+
+<div class="main-content">
+     <h2 class="section-title">Products for Sale</h2>
+    {% for product_type in other_product_types %}
+    <h3 class="product-type-title">{{ product_type.name }}</h3>
+    <div class="product-list">
+        {% for product in other_products %}
+        {% if product_type == product.product_type %}
+        <div class="product-item">
+            {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+            {% endif %}
+            <div class="product-text">
+                <a href="{{ product.get_absolute_url }}" class="product-name">{{ product.name }}</a>
+                <div class="product-price">₱{{ product.price }}</div>
+                <div class="product-stock">Available Stock: {{ product.stock }}</div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+
+    </div>
     {% endfor %}
 </div>
-{% endfor %}
+</div>
 
-<h2 class="section-title">Products for Sale:</h2>
-{% for product_type in other_product_types %}
-        <h3 class="product-type-title">{{ product_type.name }}</h3>
-<div class="product-list">
-    {% for product in other_products %}
-        {% if product_type == product.product_type %}
-            <div class="product-item">
-                {% if product.image %}
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
-                {% endif %}
-                <div class="product-text">
-                    <a href="{{ product.get_absolute_url }}" class="product-name">{{ product.name }}</a> 
-                    <div class="product-price">₱{{ product.price }}</div> 
-                    <div class="product-stock">Available Stock: {{ product.stock }}</div>
-                </div>        
-            </div>
-            {% endif %}
-        {% endfor %}
-    
-            </div>
-{% endfor %}
 {% endblock %}
