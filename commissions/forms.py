@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 
-from .models import Commission, JobApplication
+from .models import Commission, Job, JobApplication
 
 class CommissionCreateForm(forms.ModelForm):
     class Meta:
@@ -23,7 +23,10 @@ class JobApplicationForm(forms.ModelForm):
 #         model = Transaction
 #         fields = ['amount']
 
-# class ProductEditForm(forms.ModelForm):
-#     class Meta:
-#         model = Product
-#         fields = ['name','product_type','description','price','stock']
+class CommissionEditForm(forms.ModelForm):
+    class Meta:
+        model = Commission
+        fields = ['title','description']
+class JobCreateForm(forms.ModelForm):
+    model = Job
+    fields = ['role','manpower_required']
