@@ -7,7 +7,7 @@ from django.views.generic.list import ListView
 from django.urls import reverse
 
 from .models import Commission,Comments, Job, JobApplication
-from .forms import CommissionCreateForm, JobApplicationForm
+from .forms import CommissionCreateForm, JobApplicationForm, CommissionEditForm
 
 
 class CommissionListView(ListView):
@@ -79,26 +79,26 @@ def create_commission(request):
     ctx = {"form": form}
     return render(request, 'commission_create.html', ctx)
 
-#@login_required
-# def edit_commission(request,pk):
-#     product = get_object_or_404(Product, pk=pk)
-#     form = ProductEditForm()
-#     if request.method == 'POST':
-#         form = ProductEditForm(request.POST, instance=product)
-#         if form.is_valid():
-#             updated_product = form.save(commit=False)
-#             if updated_product.owner != request.user.profile:
-#                 return render(request, 'product_detail.html', {
-#                     'form': form,
-#                     'product': product,
-#                     'error_message': "You are not authorized to edit this product."
-#                 })
-#             updated_product.status = 'out_of_stock' if updated_product.stock == 0 else 'available'
-#             updated_product.save()
-#             return redirect('merchstore:product-detail', pk=product.pk)
-#     else:
-#         form = ProductEditForm(instance=product)
+@login_required
+def edit_commission(request,pk):
+    product = get_object_or_404(Commission, pk=pk)
+    form = CommissionEditForm()
+    if request.method == 'POST':
+        form = CommissionEditForm(request.POST, instance=product)
+        if form.is_valid():
+            updated_product = form.save(commit=False)
+            if updated_product.owner != request.user.profile:
+                return render(request, 'product_detail.html', {
+                    'form': form,
+                    'product': product,
+                    'error_message': "You are not authorized to edit this product."
+                })
+            updated_product.status = 'out_of_stock' if updated_product.stock == 0 else 'available'
+            updated_product.save()
+            return redirect('merchstore:product-detail', pk=product.pk)
+    else:
+        form = CommissionEditForm(instance=product)
 
-#     ctx = {"form": form, "product":product}
-#     return render(request, 'product_create.html', ctx)
+    ctx = {"form": form, "product":product}
+    return render(request, 'product_create.html', ctx)
 
