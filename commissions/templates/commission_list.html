@@ -8,22 +8,24 @@
 {% endblock %}
 
 {% block content %}
-<h1>COMMISSIONS</h1> <br>
-<h2>List</h2>
+<h1 class="app-header">COMMISSIONS</h1> <br>
+<h2>Complete List</h2>
 
 {% if user.is_authenticated %}
     <h3><a href="/commissions/add">Create Commission</a></h3>
-    <h2>Created Commissions</h2>
-    <ul>
-        {% for commission in object_list %}
-            {% if user.profile ==  commission.author%} 
-                <h3><a href="{{commission.get_absolute_url}}">{{commission.title}}</a></h3>
-                <li>Created on: {{commission.created_on}}</li>     
-                <br>
-            {% endif %}
+    <div class="created-coms">
+        <h2>Created Commissions</h2>
+        <ul>
+            {% for commission in object_list %}
+                {% if user.profile ==  commission.author%} 
+                    <h3><a href="{{commission.get_absolute_url}}">{{commission.title}}</a></h3>
+                    <li>Created on: {{commission.created_on}}</li>     
+                    <br>
+                {% endif %}
 
-        {% endfor %}
-    </ul>
+            {% endfor %}
+        </ul>
+    </div>
     <h2>Applied Commissions</h2>
     <ul>
         {% for app in applications %}
