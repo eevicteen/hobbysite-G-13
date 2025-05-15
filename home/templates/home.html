@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Welcome to Hobbysite!{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'home/styles/style.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="banner">
+    <div class="bannercontainer">
+        <div><img src='{% static banner_url %}'>
+        </div>
+        <div class="bannertext">HobbySite</div>
+    </div>
+</section>
+<div class="Vision">
+    <a>Our Vision: To Connect.</a>
+</div>
+
+<section class="Group" id="Group">
+    <div class="GroupText">
+        <a> Created by: </a>
+    </div>
+    
+    <div class="container">
+        {% for app in apps %}
+        <div class="col">
+            <img src="{% static app.image_url %}" style="max-height: 200px;max-width: 200px;">
+            <div class="text">
+                <h2>{{ app.creator}}</h2>
+                <a href="{{ app.url }}">{{app.name}}</a>
+            </div>
+        </div>
+        {% endfor %}
+        
+        <div class="col">
+            <img src="{% static honorable_mentions.image_url %}" style="max-height: 200px;max-width: 200px;">
+            <div class="text">
+                <h2>{{honorable_mentions.name}}</h2>
+                <span>Added his name on the readme.</span>
+            </div>
+        </div>
+    </div>
+    
+</section>
+
+<section class="footer">
+    <span>Banner Image Source: RCHITECTS, Inc.</span>
+</section>
+{% endblock %}
