@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Comment{% endblock %}
+
+{% block content %}
+
+<style>
+    ul, div {
+        text-align: center;
+        list-style-type: none;
+        padding-left: 0;
+        margin-bottom: 8px;
+    }
+    button {
+        margin-top: 8px;
+    }
+</style>
+
+<div>
+    <h1>Edit Your Comment</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.entry }}
+        <br><button type="submit">Update Comment</button></br>
+    </form>
+    <a href="{% url 'wiki:article_details' object.article.pk %}">Back to Article</a>
+</div>
+
+{% endblock %}
