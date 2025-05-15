@@ -12,17 +12,22 @@
         {% for job in jobs %}
             <br> <li>{{job.role}}</li>
             <br> 
-            {% for applicant in applicants %}
+            {% comment %} {% for applicant in applicants %}
             {% if applicant.job == job %}
                 {{applicant.applicant}} <br>
             {% endif %}
-            {% endfor %}
+            {% endfor %} {% endcomment %}
             {% if user.is_authenticated %}
                 <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     <input type="hidden" name="job_id" value="{{ job.id }}"/>
                     {{ form }}
-                    <button type="submit" value="Apply to Job">Apply to Job</button>
+                    {% if open_slots < 1 %}
+                        <button disabled type="submit" value="Apply to Job">Apply to Job</button>
+
+                    {% else %}
+                        <button type="submit" value="Apply to Job">Apply to Job</button>
+                    {% endif %}
                 </form>
             {% endif %}
             
