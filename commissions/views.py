@@ -82,24 +82,41 @@ def create_commission(request):
 def edit_commission(request,pk):
     commission = get_object_or_404(Commission, pk=pk)
     form = CommissionEditForm()
+    jobs = Job.objects.filter(commission=commission)
+    applicants = JobApplication.objects.filter(job__in=jobs)
+    people_required = 0
+    for job in jobs:
+        people_required += job.manpower_required
+    accepted = 0
+    for applicant in applicants:
+        if applicant.status == 'b_accepted':
+            accepted +=1
+    open_slots = people_required - accepted
+    ctx = {
+                "commission": commission,
+                "jobs": jobs,
+                "people_required":people_required,
+                "open_slots": open_slots,
+                "applicants": applicants
+            }
     if request.method == 'POST':
-        form = CommissionEditForm(request.POST, instance=product)
-        if form.is_valid():
-            updated_commission = form.save(commit=False)
-            if updated_commission.owner != request.user.profile:
-                return render(request, 'product_detail.html', {
-                    'form': form,
-                    'commission': commission,
-                    'error_message': "You are not authorized to edit this product."
-                })
-            updated_commission.status = 'out_of_stock' if updated_product.stock == 0 else 'available'
-            updated_commission.save()
-            return redirect('commission:commission-detail', pk=commission.pk)
+        form = CommissionEditForm(request.POST, instance=commission)
+        # if form.is_valid():
+        #     updated_commission = form.save(commit=False)
+        #     if updated_commission.owner != request.user.profile:
+        #         return render(request, 'product_detail.html', {
+        #             'form': form,
+        #             'commission': commission,
+        #             'error_message': "You are not authorized to edit this product."
+        #         })
+        #     updated_commission.status = 'out_of_stock' if updated_product.stock == 0 else 'available'
+        #     updated_commission.save()
+        #     return redirect('commission:commission-detail', pk=commission.pk)
     else:
         form = CommissionEditForm(instance=commission)
 
     ctx = {"form": form, "commission":commission}
     # return render(request, 'product_create.html', ctx)
-    return render(request, "commission_detail.html", ctx)
+    return render(request, "commission_edit.html", ctx)
 
 
