@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} 
+    Create Product
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'merchstore/styles/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<h1 class="page-title">MERCHSTORE</h1>
+<h2 class="error-message">{{ error_message }}</h2>
+
+<div class="user-info">
+    <p><strong>Logged in user:</strong> {{ user.username }}</p>
+</div>
+
+<div class="user-product">
+    <p><a href="{% url 'merchstore:cart-list' %}" class="btn">View Cart</a></p>
+    <p><a href="{% url 'merchstore:product-list' %}" class="btn">View Items</a></p>
+    <p><a href="{% url 'merchstore:transactions' %}" class="btn">View Transactions</a></p>
+</div>
+
+<h2 class="section-title">Create Product: </h2>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit" value="submit" class="btn">Submit</button>
+</form>
+{% endblock %}

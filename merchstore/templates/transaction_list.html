@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} 
+    Transactions
+{% endblock %}
+
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'merchstore/styles/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<h1 class="page-title">MERCHSTORE</h1>
+<h2 class="error-message">{{ error_message }}</h2>
+
+<div class="user-info">
+    <p><strong>Logged in user:</strong> {{ user.username }}</p>
+    
+</div>
+<div class="user-product">
+    <p><a href="{% url 'merchstore:cart-list' %}" class="btn">View Cart</a></p>
+    <p><a href="{% url 'merchstore:product-list' %}" class="btn">View Items</a></p>
+    <p><a href="{% url 'merchstore:transactions' %}" class="btn">View Transactions</a></p>
+</div>
+
+<p class="product-generic">Total Value: {{projected_earnings}}</p>
+<h2 class="section-title">Transactions Made as Seller:</h2>
+
+{% for buyer in buyers %}
+    <h3 class="product-type-title">Buyer: {{buyer.display_name}}</h3>
+    <div class="product-list">
+    {% for item in transactions_sold %}
+    {% if item.buyer == buyer %}  
+        <div class="product-item">
+            {% if item.product.image %}
+            <img src="{{ item.product.image.url }}" alt="{{ product.name }}" class="product-image">
+            {% endif %}
+            <div class="product-text">
+                <div class="product-name">{{item.product.name}}</div>
+                <div class="product-price">₱{{item.product.price}}</div>
+                <div class="product-generic">QTY: {{item.amount}}</div>
+                <div class="product-generic">{{item.created_on}}</div>
+            </div>
+        </div>
+        {% endif %}
+    {% endfor %}
+    </div>
+{% endfor %}
+
+{% endblock %}
