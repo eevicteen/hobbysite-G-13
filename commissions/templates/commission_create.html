@@ -3,10 +3,13 @@
 
 {% block title %} Commissions {% endblock %}
 
+{% block head %}
+    <link rel="stylesheet" href="{% static 'commissions/styles/style.css' %}">
+{% endblock %}
+
 {% block content %}
 <h1>COMMISSIONS</h1> <br>
 <h2>Create</h2>
-
 
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
