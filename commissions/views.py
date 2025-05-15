@@ -7,7 +7,7 @@ from django.views.generic.list import ListView
 from django.urls import reverse
 
 from .models import Commission,Comments, Job, JobApplication
-from .forms import CommissionCreateForm, JobApplicationForm, CommissionEditForm
+from .forms import CommissionCreateForm, JobApplicationForm, CommissionEditForm, JobCreateForm
 
 
 class CommissionListView(ListView):
@@ -67,15 +67,34 @@ def commission_detail(request, pk):
 
 #@login_required
 def create_commission(request):
-    form = CommissionCreateForm()
+    commission_form = CommissionCreateForm()
+    job_form1 = JobCreateForm()
+    job_form2 = JobCreateForm()
     if request.method == 'POST':
-        form = CommissionCreateForm(request.POST)
-    if form.is_valid():
-        commission = form.save(commit=False)
-        commission.author = request.user.profile
-        commission.save()
-        return redirect('/commissions/list', pk=commission.pk)
-    ctx = {"form": form}
+        commission_form = CommissionCreateForm(request.POST)
+        job_form1 = JobCreateForm(request.POST)
+        job_form2 = JobCreateForm(request.POST)
+        if commission_form.is_valid() and job_form1.is_valid() and job_form2.is_valid():
+            commission = commission_form.save(commit=False)
+            commission.author = request.user.profile
+            commission.save()
+            print(f"Commission '{commission.title}' saved.")
+            job1 = job_form1.save(commit=False)
+            job1.commission = commission
+            job1.save()
+            print(f"Job1 '{job1.role}' saved.")
+            job2 = job_form2.save(commit=False)
+            job2.commission = commission
+            job2.save()
+            print(f"Job2 '{job2.role}' saved.")
+            print(f"Job1 form data: {job_form1.cleaned_data}")
+            print(f"Job2 form data: {job_form2.cleaned_data}")
+            return redirect('/commissions/list', pk=commission.pk)
+    ctx = {
+                "commission_form": commission_form,
+                "job_form1": job_form1,
+                "job_form2": job_form2
+            }
     return render(request, 'commission_create.html', ctx)
 
 @login_required
