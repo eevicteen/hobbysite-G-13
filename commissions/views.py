@@ -4,6 +4,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.views.generic.list import ListView
+from django.urls import reverse
 
 from .models import Commission,Comments, Job, JobApplication
 from .forms import CommissionCreateForm, JobApplicationForm
@@ -43,7 +44,14 @@ def commission_detail(request, pk):
         if applicant.status == 'b_accepted':
             accepted +=1
     open_slots = people_required - accepted
-
+    ctx = {
+                    "commission": commission,
+                    "comments": comments,
+                    "jobs": jobs,
+                    "people_required":people_required,
+                    "open_slots": open_slots,
+                    "applicants": applicants
+                }
 
     if request.method == 'POST':
         form = JobApplicationForm(request.POST)
@@ -55,20 +63,8 @@ def commission_detail(request, pk):
             job_application.applicant = request.user.profile
             job_application.save()
     
-    ctx = {
-        "commission": commission,
-        "comments": comments,
-        "jobs": jobs,
-        "people_required":people_required,
-        "open_slots": open_slots,
-        "applicants": applicants
-    }
-    return redirect('/commissions/detail', pk=commission.pk)
-    # return render(request, "commission_detail.html", ctx)
-    # return redirect('commissions:commission-detail', pk=commission.pk)
-    # return redirect('/commissions/detail/',{{commission.pk}})
-    # return redirect('/commissions/list', pk=commission.pk)
-    # return redirect('/commissions/list', pk=commission.pk)
+            return redirect('/commissions/detail/' + str(commission.pk))
+    return render(request, "commission_detail.html", ctx)
 
 #@login_required
 def create_commission(request):
