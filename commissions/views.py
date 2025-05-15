@@ -25,7 +25,6 @@ class CommissionListView(ListView):
         context["applications"] = applications
         return context
 
-@login_required
 def commission_detail(request, pk):
     """Return commission_detail html file with apt context."""
     
@@ -92,7 +91,8 @@ def create_commission(request):
 @login_required
 def edit_commission(request,pk):
     commission = get_object_or_404(Commission, pk=pk)
-    form = CommissionEditForm()
+    # print(commission.pk)
+    commission_form = CommissionEditForm(instance=commission)
     jobs = Job.objects.filter(commission=commission)
     applicants = JobApplication.objects.filter(job__in=jobs)
     people_required = 0
@@ -104,29 +104,26 @@ def edit_commission(request,pk):
             accepted +=1
     open_slots = people_required - accepted
     ctx = {
+                "commission_form": commission_form,
                 "commission": commission,
                 "jobs": jobs,
                 "people_required":people_required,
                 "open_slots": open_slots,
                 "applicants": applicants
             }
+    print(f"People Required: {people_required}, Open Slots: {open_slots}")
     if request.method == 'POST':
-        form = CommissionEditForm(request.POST, instance=commission)
-        # if form.is_valid():
-        #     updated_commission = form.save(commit=False)
-        #     if updated_commission.owner != request.user.profile:
-        #         return render(request, 'product_detail.html', {
-        #             'form': form,
-        #             'commission': commission,
-        #             'error_message': "You are not authorized to edit this product."
-        #         })
-        #     updated_commission.status = 'out_of_stock' if updated_product.stock == 0 else 'available'
-        #     updated_commission.save()
-        #     return redirect('commission:commission-detail', pk=commission.pk)
-    else:
-        form = CommissionEditForm(instance=commission)
+        commission_form = CommissionEditForm(request.POST,instance=commission)
+        if commission_form.is_valid():
+            commission = commission_form.save(commit=False)
+            commission.author = request.user.profile
+            if open_slots < 1:
+                commission.status = 'b_full'
+            commission.save()
+            print(commission.title)
+        return render(request, "commission_detail.html", ctx)
 
-    ctx = {"form": form, "commission":commission}
+    ctx = {"commission_form": commission_form, "commission":commission}
     # return render(request, 'product_create.html', ctx)
     return render(request, "commission_edit.html", ctx)
 
