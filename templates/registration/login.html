@@ -1,20 +1,29 @@
 {% extends 'base.html' %}
+{% load static%}
+{% block title %} Login Page {% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'accounts/styles/style.css' %}">
+{% endblock %}
 
-{% block heading %} Log in Page {% endblock %}
 {% block content %}
+    <div class="form-container">
+    <div style="font: large; font-weight: bold">LOG IN:</div>
+    <hr style="width:50%;text-align:left;margin-left:0">
     {% if form.errors %}
-        {% for field in form %}
-            {% for error in field  %}
-                {{error}}
+            {% for field in form %}
+                {% for error in field  %}
+                    {{error}}
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
-    {% endif %}
+        {% endif %}
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Login</button>
-    </form>
-
-    <a href="{% url 'password_reset' %}">Forgot Password</a>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Login</button>
+        </form>
+        
+        <a href="{% url 'password_reset' %}">Forgot Password</a>
+        <a href="{% url 'accounts:register' %}">Register a New Account</a>
+    </div>
 {% endblock %}

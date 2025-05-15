@@ -17,9 +17,9 @@ def profile_update(request, username):
     form = ProfileForm()
 
     if request.method == 'POST':
-        form = ProfileForm(request.POST, instance=profile)
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
     else:
-        form = ProfileForm(instance=profile)
+        form = ProfileForm( instance=profile)
 
     if form.is_valid():
         profile = form.save()
