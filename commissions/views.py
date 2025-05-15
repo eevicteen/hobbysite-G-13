@@ -34,24 +34,6 @@ def commission_detail(request, pk):
     job_application = 0
 
     comments = Comments.objects.filter(commission=commission)
-    jobs = Job.objects.filter(commission=commission)
-    applicants = JobApplication.objects.filter(job__in=jobs)
-    people_required = 0
-    for job in jobs:
-        people_required += job.manpower_required
-    accepted = 0
-    for applicant in applicants:
-        if applicant.status == 'b_accepted':
-            accepted +=1
-    open_slots = people_required - accepted
-    ctx = {
-                    "commission": commission,
-                    "comments": comments,
-                    "jobs": jobs,
-                    "people_required":people_required,
-                    "open_slots": open_slots,
-                    "applicants": applicants
-                }
 
     if request.method == 'POST':
         form = JobApplicationForm(request.POST)
@@ -64,6 +46,24 @@ def commission_detail(request, pk):
             job_application.save()
     
             return redirect('/commissions/detail/' + str(commission.pk))
+    jobs = Job.objects.filter(commission=commission)
+    applicants = JobApplication.objects.filter(job__in=jobs)
+    people_required = 0
+    for job in jobs:
+        people_required += job.manpower_required
+    accepted = 0
+    for applicant in applicants:
+        if applicant.status == 'b_accepted':
+            accepted +=1
+    open_slots = people_required - accepted
+    ctx = {
+                "commission": commission,
+                "comments": comments,
+                "jobs": jobs,
+                "people_required":people_required,
+                "open_slots": open_slots,
+                "applicants": applicants
+            }
     return render(request, "commission_detail.html", ctx)
 
 #@login_required
