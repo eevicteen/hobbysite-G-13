@@ -30,7 +30,6 @@ def commission_detail(request, pk):
     """Return commission_detail html file with apt context."""
     
     commission = get_object_or_404(Commission, pk=pk)
-    # form = JobApplicationForm()
     job_application = 0
 
     comments = Comments.objects.filter(commission=commission)
@@ -86,15 +85,15 @@ def edit_commission(request,pk):
     if request.method == 'POST':
         form = CommissionEditForm(request.POST, instance=product)
         if form.is_valid():
-            updated_product = form.save(commit=False)
-            if updated_product.owner != request.user.profile:
+            updated_commission = form.save(commit=False)
+            if updated_commission.owner != request.user.profile:
                 return render(request, 'product_detail.html', {
                     'form': form,
                     'product': product,
                     'error_message': "You are not authorized to edit this product."
                 })
-            updated_product.status = 'out_of_stock' if updated_product.stock == 0 else 'available'
-            updated_product.save()
+            updated_commission.status = 'out_of_stock' if updated_product.stock == 0 else 'available'
+            updated_commission.save()
             return redirect('merchstore:product-detail', pk=product.pk)
     else:
         form = CommissionEditForm(instance=product)
