@@ -1,22 +1,70 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %} Product List {% endblock %}
+{% block title %} Commissions - Hobbysite {% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'commissions/styles/style.css' %}">
+{% endblock %}
 
 {% block content %}
-<h1>COMMISSION DETAIL</h1>
-<ul>
-    <a href="{% url 'commissions:commissions-list' %}">Commission List</a>
-    <p>DESCRIPTION: <br> {{commission.description}}</p>
-    <p>People required: <br> {{commission.people_required}}</p>
-    <p>Created on: <br> {{commission.created_on}}</p>
-    <p>Updated on: <br> {{commission.updated_on}}</p>
+<h1 class="app-header">COMMISSIONS</h1> <br>
+<div class = main-content>
+    <h2>Commission Details</h2>
+        <h3><a href="{% url 'commissions:commissions-list' %}">Back to Commission List</a></h3>
+        
+        <h2 class="com-header">TITLE: {{commission.title}}</h2>
+        <div class="coms">
+        <div class="detail-entry">
+        <p>AUTHOR: {{commission.author}}</p>
+        {% if user.profile == commission.author %}
+            <a href="{% url 'commissions:commission-edit' commission.pk %}">Edit Commission</a>
+        {% endif %}
+        </div>
+        <div class="detail-entry">
+        <p>JOBS:
+            {% for job in jobs %}
+                <br> <li>{{job.role}}</li>
+                <br> 
+                {% if user.is_authenticated %}
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="hidden" name="job_id" value="{{ job.id }}"/>
+                        {{ form }}
+                        {% if open_slots < 1 %}
+                            <button disabled type="submit" value="Apply to Job">Apply to Job</button>
 
-    {% for comment in comments %}
-        <li>{{comment.entry}}</li>
-        <li>Created on: {{comment.created_on}}</li>
-        <li>Updated on: {{comment.updated_on}}</li>
-        <br>
-    {% endfor %}
-</ul>
+                        {% else %}
+                            <button type="submit" value="Apply to Job">Apply to Job</button>
+                        {% endif %}
+                    </form>
+                {% endif %}
+                
+            {% endfor %}
+        </p>
+        </div>
+        <div class="detail-entry">
+        <p>DESCRIPTION: <br> {{commission.description}}</p>
+        </div>
+        <div class="detail-entry">
+        <p>People required: {{people_required}}</p>
+        <p>Open Slots: {{open_slots}}</p>
+        </div>
+        <div class="detail-entry">
+        <p>Created on: <br> {{commission.created_on}}</p>
+        <p>Updated on: <br> {{commission.updated_on}}</p>
+        </div>
+        <div class="detail-entry">
+        <p> COMMENTS: </p>
+        {% for comment in comments %}
+            <div class="detail-entry">
+            <p>{{comment.entry}}</p>
+            <li>Created on: {{comment.created_on}}</li>
+            <li>Updated on: {{comment.updated_on}}</li>
+            <br>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+</div>
 {% endblock %}
