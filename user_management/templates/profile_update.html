@@ -8,12 +8,15 @@
 {% block content %}
  <div class="profile-container">
     <div class="profile-left">
+        {% if profile.image %}
         <div class="user-image">
             <img src="{{ profile.image.url }}" style="max-width: 200px; height: auto; border-radius: 20px;">
         </div>
         <div class="username-display">
             {{ profile.display_name }}
         </div>
+        {% endif %}
+        
     </div>
 
     <div class="profile-right">
