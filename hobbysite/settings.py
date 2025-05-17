@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+from urllib.parse import urlparse
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -96,7 +97,6 @@ WSGI_APPLICATION = 'hobbysite.wsgi.application'
 
 # PostgreSQL
 
-from urllib.parse import urlparse
 
 DATABASE_URL = os.environ.get('DATABASE_URL')
 
@@ -106,11 +106,11 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'db',
-        'USER':db_info.username,
+        'USER': db_info.username,
         'PASSWORD': db_info.password,
         'HOST': db_info.hostname,
         'PORT': db_info.port,
-        'OPTIONS':{'sslmode':'require'},
+        'OPTIONS': {'sslmode': 'require'},
     }
 }
 
@@ -158,9 +158,9 @@ STATICFILES_DIRS = [
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATIC_URL = 'static/'
-ALLOWED_HOSTS= ['hobbysite-finals-c97mg.ondigitalocean.app']
+ALLOWED_HOSTS = ['hobbysite-finals-c97mg.ondigitalocean.app']
 
-LOGIN_URL = '/profile/login/'
+LOGIN_URL = '/accounts/login/'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = '/'
 
