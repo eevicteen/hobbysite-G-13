@@ -26,7 +26,7 @@ class JobApplicationForm(forms.ModelForm):
 class CommissionEditForm(forms.ModelForm):
     class Meta:
         model = Commission
-        fields = ['title','description']
+        fields = ['title','description','status']
 class JobCreateForm(forms.ModelForm):
     class Meta:
         model = Job
