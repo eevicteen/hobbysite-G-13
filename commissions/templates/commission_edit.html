@@ -8,22 +8,21 @@
 {% endblock %}
 
 {% block content %}
-<h1 class="app-header">COMMISSIONS</h1> <br>
-<div class = main-content>
-<h2 class="com-header">Update the Commission</h2>
-<div class="coms">
-    <p><strong>Logged in user:</strong> {{ user.username }}</p>
-    Title: {{commission.title}} <br>
-Author: {{commission.author}} <br>
-Created on: {{commission.created_on}} <br>
-Status: {{commission.get_status_display}} <br>
-Description: {{commission.description}} <br>
-
-<form method="POST">
-  {% csrf_token %}
-  {{ commission_form.as_p }}
-  <button type="submit">Update Commission</button>
-</form>
-</div>
-</div>
+    <h1 class="app-header">COMMISSIONS</h1> <br>
+    <div class = main-content>
+        <h2 class="com-header">Update the Commission</h2>
+        <div class="coms">
+            <p><strong>Logged in user:</strong> {{ user.username }}</p>
+            Title: {{commission.title}} <br>
+            Author: {{commission.author}} <br>
+            Created on: {{commission.created_on}} <br>
+            Status: {{commission.get_status_display}} <br>
+            Description: {{commission.description}} <br>
+            <form method="POST">
+                {% csrf_token %}
+                {{ commission_form.as_p }}
+                <button type="submit">Update Commission</button>
+            </form>
+        </div>
+    </div>
 {% endblock %}
