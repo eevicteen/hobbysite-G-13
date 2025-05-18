@@ -50,7 +50,9 @@ def commission_detail(request, pk):
     for job in jobs:
         people_required += job.manpower_required
     accepted = 0
+    applicant_number = 0
     for applicant in applicants:
+        applicant_number += 1
         if applicant.status == 'b_accepted':
             accepted +=1
     open_slots = people_required - accepted
@@ -60,7 +62,8 @@ def commission_detail(request, pk):
                 "jobs": jobs,
                 "people_required":people_required,
                 "open_slots": open_slots,
-                "applicants": applicants
+                "applicants": applicants,
+                "applicant_number": applicant_number
             }
     return render(request, "commission_detail.html", ctx)
 

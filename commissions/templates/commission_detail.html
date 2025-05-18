@@ -33,7 +33,8 @@
                         {{ form }}
                         {% if open_slots < 1 %}
                             <button disabled type="submit" value="Apply to Job">Apply to Job</button>
-
+                        {% elif user.profile == commission.author %}
+                            <p>Current Number of Applicants: {{applicant_number}}</p> 
                         {% else %}
                             <button type="submit" value="Apply to Job">Apply to Job</button>
                         {% endif %}
