@@ -1,7 +1,7 @@
 """Direct users to appropriate urls depending on needs."""
 
 from django.urls import path
-from .views import CommissionListView, commission_detail, create_commission,edit_commission
+from .views import CommissionListView, commission_detail, create_commission, edit_commission
 
 urlpatterns = [
 

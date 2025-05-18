@@ -1,12 +1,11 @@
 """Receives web requests and returns the necessary web response."""
 
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.views.generic.list import ListView
 from django.urls import reverse
 
-from .models import Commission,Comments, Job, JobApplication
+from .models import Commission, Comments, Job, JobApplication
 from .forms import CommissionCreateForm, JobApplicationForm, CommissionEditForm, JobCreateForm
 
 
@@ -14,7 +13,8 @@ class CommissionListView(ListView):
     """Return commission_list html file with apt context."""
     model = Commission
     template_name = "commission_list.html"
-    ordering = ["status","-created_on"]
+    ordering = ["status", "-created_on"]
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         commissions = Commission.objects.all()
@@ -25,9 +25,10 @@ class CommissionListView(ListView):
         context["applications"] = applications
         return context
 
+
 def commission_detail(request, pk):
     """Return commission_detail html file with apt context."""
-    
+
     commission = get_object_or_404(Commission, pk=pk)
     job_application = 0
 
@@ -41,7 +42,6 @@ def commission_detail(request, pk):
             job_application.job = get_object_or_404(Job, id=job_id)
             job_application.applicant = request.user.profile
             job_application.save()
-    
             return redirect('/commissions/detail/' + str(commission.pk))
     jobs = Job.objects.filter(commission=commission)
     applicants = JobApplication.objects.filter(job__in=jobs)
@@ -53,21 +53,23 @@ def commission_detail(request, pk):
     for applicant in applicants:
         applicant_number += 1
         if applicant.status == 'b_accepted':
-            accepted +=1
+            accepted += 1
     open_slots = people_required - accepted
     ctx = {
-                "commission": commission,
-                "comments": comments,
-                "jobs": jobs,
-                "people_required":people_required,
-                "open_slots": open_slots,
-                "applicants": applicants,
-                "applicant_number": applicant_number
-            }
+        "commission": commission,
+        "comments": comments,
+        "jobs": jobs,
+        "people_required": people_required,
+        "open_slots": open_slots,
+        "applicants": applicants,
+        "applicant_number": applicant_number
+    }
     return render(request, "commission_detail.html", ctx)
 
-#@login_required
+
+@login_required
 def create_commission(request):
+    """Return commission_create html file with apt context."""
     commission_form = CommissionCreateForm()
     job_form1 = JobCreateForm()
     if request.method == 'POST':
@@ -82,13 +84,15 @@ def create_commission(request):
             job1.save()
             return redirect('/commissions/list', pk=commission.pk)
     ctx = {
-                "commission_form": commission_form,
-                "job_form1": job_form1,
-            }
+        "commission_form": commission_form,
+        "job_form1": job_form1,
+    }
     return render(request, 'commission_create.html', ctx)
 
+
 @login_required
-def edit_commission(request,pk):
+def edit_commission(request, pk):
+    """Return commission_edit html file with apt context."""
     commission = get_object_or_404(Commission, pk=pk)
     commission_form = CommissionEditForm(instance=commission)
     jobs = Job.objects.filter(commission=commission)
@@ -99,21 +103,21 @@ def edit_commission(request,pk):
     accepted = 0
     for applicant in applicants:
         if applicant.status == 'b_accepted':
-            accepted +=1
+            accepted += 1
     open_slots = people_required - accepted
     if accepted >= people_required:
         commission.status = 'b_full'
         commission.save()
     ctx = {
-                "commission_form": commission_form,
-                "commission": commission,
-                "jobs": jobs,
-                "people_required":people_required,
-                "open_slots": open_slots,
-                "applicants": applicants
-            }
+        "commission_form": commission_form,
+        "commission": commission,
+        "jobs": jobs,
+        "people_required": people_required,
+        "open_slots": open_slots,
+        "applicants": applicants
+    }
     if request.method == 'POST':
-        commission_form = CommissionEditForm(request.POST,instance=commission)
+        commission_form = CommissionEditForm(request.POST, instance=commission)
         if commission_form.is_valid():
             commission = commission_form.save(commit=False)
             commission.author = request.user.profile
@@ -122,7 +126,5 @@ def edit_commission(request,pk):
             commission.save()
         return render(request, "commission_detail.html", ctx)
 
-    ctx = {"commission_form": commission_form, "commission":commission}
+    ctx = {"commission_form": commission_form, "commission": commission}
     return render(request, "commission_edit.html", ctx)
-
-

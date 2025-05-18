@@ -2,16 +2,15 @@
 
 from django.db import models
 from django.urls import reverse
-from user_management.models import Profile
 
-# Create your models here.
+from user_management.models import Profile
 
 
 class Commission(models.Model):
     """Create Commission with appropriate field, sorted by time created sorted ascendingly."""
 
     title = models.CharField(max_length=255)
-    author = models.ForeignKey(Profile, on_delete=models.CASCADE,null=True)
+    author = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
     description = models.TextField()
     STATUS_CHOICES = [
         ('a_open', 'Open'),
@@ -33,8 +32,8 @@ class Commission(models.Model):
         """Return the url of the Commission."""
 
         return reverse('commissions:commission-detail', args=[self.pk])
-    
-    def get_status(self,status):
+
+    def get_status(self, status):
         """"return status of the Commission."""
         return status
 
@@ -48,14 +47,15 @@ class Comments(models.Model):
     """Create Comments with appropriate field, sorted by time created sorted descendingly."""
 
     entry = models.TextField()
-    commission = models.ForeignKey(Commission,on_delete=models.CASCADE,)
+    commission = models.ForeignKey(Commission, on_delete=models.CASCADE,)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         """Orders Comments by time created descendingly."""
-        
+
         ordering = ["-created_on"]
+
 
 class Job(models.Model):
     """Create Jobs with appropriate field, sorted by status (Open > Full), manpower 
@@ -72,17 +72,20 @@ class Job(models.Model):
     ]
     status = models.CharField(
         max_length=20, choices=STATUS_CHOICES, default='a_open')
+
     def __str__(self):
         """Return the role of the Job."""
         return self.role
+
     def get_commission(self):
         return self.commission
 
     class Meta:
         """Orders Jobs by status (Open > Full), manpower required, 
         in descending order, then role, in ascending order"""
-        
-        ordering = ["status","-manpower_required","role"]
+
+        ordering = ["status", "-manpower_required", "role"]
+
 
 class JobApplication(models.Model):
     job = models.ForeignKey(Job, on_delete=models.CASCADE,)
@@ -94,12 +97,11 @@ class JobApplication(models.Model):
     ]
     status = models.CharField(
         max_length=20, choices=STATUS_CHOICES, default='a_pending')
-    
-    applied_on = models.DateTimeField(auto_now_add=True)
 
+    applied_on = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         """Orders Jobs by status (Open > Full), manpower required, 
         in descending order, then role, in ascending order"""
-        
-        ordering = ["status","-applied_on"]
+
+        ordering = ["status", "-applied_on"]
