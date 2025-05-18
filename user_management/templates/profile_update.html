@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Edit Profile{% endblock %}
+{% block title %}{{ profile.display_name}}'s Profile{% endblock %}
 {% block head %}
     <link rel="stylesheet" href="{% static 'user_management/styles/style.css' %}">
 {% endblock %}
@@ -14,12 +14,15 @@
         </div>
         <div class="username-display">
             {{ profile.display_name }}
+            <br>
+            {{ profile.email_address}}
         </div>
         {% endif %}
         
     </div>
 
     <div class="profile-right">
+        {% if request.user == user %}
         <div class="profile-details">
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
@@ -27,6 +30,7 @@
                 <button type="submit" class="btn">Submit</button>
             </form>
         </div>
+        {% endif %}
     </div>
 </div>
 
