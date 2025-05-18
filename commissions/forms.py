@@ -6,7 +6,7 @@ from .models import Commission, Job, JobApplication
 class CommissionCreateForm(forms.ModelForm):
     class Meta:
         model = Commission
-        fields = ['title','description']
+        fields = ['title','description','status']
 
 class JobApplicationForm(forms.ModelForm):
     class Meta:
