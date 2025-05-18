@@ -17,6 +17,7 @@
         <div class="coms">
         <div class="detail-entry">
         <p>AUTHOR: {{commission.author}}</p>
+        <p>Status: {{commission.get_status_display}}</p>
         {% if user.profile == commission.author %}
             <a href="{% url 'commissions:commission-edit' commission.pk %}">Edit Commission</a>
         {% endif %}
