@@ -68,7 +68,6 @@ def commission_detail(request, pk):
 def create_commission(request):
     commission_form = CommissionCreateForm()
     job_form1 = JobCreateForm()
-    job_form2 = JobCreateForm()
     if request.method == 'POST':
         commission_form = CommissionCreateForm(request.POST)
         job_form1 = JobCreateForm(request.POST, prefix='job_form1')
@@ -84,7 +83,6 @@ def create_commission(request):
     ctx = {
                 "commission_form": commission_form,
                 "job_form1": job_form1,
-                "job_form2": job_form2
             }
     return render(request, 'commission_create.html', ctx)
 
