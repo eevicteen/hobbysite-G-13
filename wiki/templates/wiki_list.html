@@ -53,7 +53,35 @@
 </div>
 
 <div class="container">
-    {% for category in articlecategory %}
+    {% if user.is_authenticated %}
+        {% if user_articles %}
+            <section class="box">
+                <h2>Articles You Made</h2>
+                <p>These are the articles that you've made.</p>
+                <ul>
+                    {% for article in user_articles %}
+                    <li>
+                        <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </section>
+        {% endif %}
+        {% for category, articles in all_articles.items %}
+        <section class="box">
+            <h2>{{ category.name }}</h2>
+            <p>{{ category.description }}</p>
+            <ul>
+                {% for article in articles %}
+                <li>
+                    <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </section>
+        {% endfor %}
+    {% else %}
+    {% for category in all_articles %}
         <section class="box">
             <h2>{{ category.name }}</h2>
             <p>{{ category.description }}</p>
@@ -66,8 +94,7 @@
             </ul>
         </section>
     {% endfor %}
+    {% endif %}
 </div>
-
-
 
 {% endblock %}
