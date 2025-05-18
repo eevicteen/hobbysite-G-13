@@ -13,15 +13,7 @@ class JobApplicationForm(forms.ModelForm):
         model = JobApplication
         exclude = ['job','applicant','status',]
 
-# class RegisterForm(forms.ModelForm):
-#     class Meta:
-#         model = User
-#         fields = ['password','username','email']
 
-# class TransactionForm(forms.ModelForm):
-#     class Meta:
-#         model = Transaction
-#         fields = ['amount']
 
 class CommissionEditForm(forms.ModelForm):
     class Meta:
