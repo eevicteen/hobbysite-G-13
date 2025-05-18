@@ -50,7 +50,9 @@ def commission_detail(request, pk):
     for job in jobs:
         people_required += job.manpower_required
     accepted = 0
+    applicant_number = 0
     for applicant in applicants:
+        applicant_number += 1
         if applicant.status == 'b_accepted':
             accepted +=1
     open_slots = people_required - accepted
@@ -60,7 +62,8 @@ def commission_detail(request, pk):
                 "jobs": jobs,
                 "people_required":people_required,
                 "open_slots": open_slots,
-                "applicants": applicants
+                "applicants": applicants,
+                "applicant_number": applicant_number
             }
     return render(request, "commission_detail.html", ctx)
 
@@ -68,10 +71,9 @@ def commission_detail(request, pk):
 def create_commission(request):
     commission_form = CommissionCreateForm()
     job_form1 = JobCreateForm()
-    job_form2 = JobCreateForm()
     if request.method == 'POST':
         commission_form = CommissionCreateForm(request.POST)
-        job_form1 = JobCreateForm(request.POST, prefix='job_form1')
+        job_form1 = JobCreateForm(request.POST or None)
         if all([commission_form.is_valid(), job_form1.is_valid()]):
             commission = commission_form.save(commit=False)
             commission.author = request.user.profile
@@ -84,7 +86,6 @@ def create_commission(request):
     ctx = {
                 "commission_form": commission_form,
                 "job_form1": job_form1,
-                "job_form2": job_form2
             }
     return render(request, 'commission_create.html', ctx)
 
