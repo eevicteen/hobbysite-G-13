@@ -70,7 +70,7 @@ def create_commission(request):
     job_form1 = JobCreateForm()
     if request.method == 'POST':
         commission_form = CommissionCreateForm(request.POST)
-        job_form1 = JobCreateForm(request.POST, prefix='job_form1')
+        job_form1 = JobCreateForm(request.POST or None)
         if all([commission_form.is_valid(), job_form1.is_valid()]):
             commission = commission_form.save(commit=False)
             commission.author = request.user.profile
