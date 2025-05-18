@@ -104,6 +104,9 @@ def edit_commission(request,pk):
         if applicant.status == 'b_accepted':
             accepted +=1
     open_slots = people_required - accepted
+    if accepted >= people_required:
+        commission.status = 'b_full'
+        commission.save()
     ctx = {
                 "commission_form": commission_form,
                 "commission": commission,
