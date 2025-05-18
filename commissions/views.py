@@ -39,7 +39,6 @@ def commission_detail(request, pk):
             job_application = form.save(commit=False)
             job_id = request.POST.get("job_id")
             job_application.job = get_object_or_404(Job, id=job_id)
-            print(job_application.job)
             job_application.applicant = request.user.profile
             job_application.save()
     
@@ -78,7 +77,6 @@ def create_commission(request):
             commission = commission_form.save(commit=False)
             commission.author = request.user.profile
             commission.save()
-            print(f"Commission '{commission.title}' saved.")
             job1 = job_form1.save(commit=False)
             job1.commission = commission
             job1.save()
@@ -92,7 +90,6 @@ def create_commission(request):
 @login_required
 def edit_commission(request,pk):
     commission = get_object_or_404(Commission, pk=pk)
-    # print(commission.pk)
     commission_form = CommissionEditForm(instance=commission)
     jobs = Job.objects.filter(commission=commission)
     applicants = JobApplication.objects.filter(job__in=jobs)
@@ -115,7 +112,6 @@ def edit_commission(request,pk):
                 "open_slots": open_slots,
                 "applicants": applicants
             }
-    print(f"People Required: {people_required}, Open Slots: {open_slots}")
     if request.method == 'POST':
         commission_form = CommissionEditForm(request.POST,instance=commission)
         if commission_form.is_valid():
@@ -124,11 +120,9 @@ def edit_commission(request,pk):
             if open_slots < 1:
                 commission.status = 'b_full'
             commission.save()
-            print(commission.title)
         return render(request, "commission_detail.html", ctx)
 
     ctx = {"commission_form": commission_form, "commission":commission}
-    # return render(request, 'product_create.html', ctx)
     return render(request, "commission_edit.html", ctx)
 
 
