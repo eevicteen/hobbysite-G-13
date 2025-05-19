@@ -43,20 +43,6 @@ class Commission(models.Model):
         ordering = ["created_on"]
 
 
-class Comments(models.Model):
-    """Create Comments with appropriate field, sorted by time created sorted descendingly."""
-
-    entry = models.TextField()
-    commission = models.ForeignKey(Commission, on_delete=models.CASCADE,)
-    created_on = models.DateTimeField(auto_now_add=True)
-    updated_on = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        """Orders Comments by time created descendingly."""
-
-        ordering = ["-created_on"]
-
-
 class Job(models.Model):
     """Create Jobs with appropriate field, sorted by status (Open > Full), manpower 
     required, in descending order, then role, in ascending order"""

@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic.list import ListView
 from django.urls import reverse
 
-from .models import Commission, Comments, Job, JobApplication
+from .models import Commission, Job, JobApplication
 from .forms import CommissionCreateForm, JobApplicationForm, CommissionEditForm, JobCreateForm
 
 
@@ -32,8 +32,6 @@ def commission_detail(request, pk):
     commission = get_object_or_404(Commission, pk=pk)
     job_application = 0
 
-    comments = Comments.objects.filter(commission=commission)
-
     if request.method == 'POST':
         form = JobApplicationForm(request.POST)
         if form.is_valid():
@@ -57,7 +55,6 @@ def commission_detail(request, pk):
     open_slots = people_required - accepted
     ctx = {
         "commission": commission,
-        "comments": comments,
         "jobs": jobs,
         "people_required": people_required,
         "open_slots": open_slots,

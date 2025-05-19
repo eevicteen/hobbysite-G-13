@@ -54,17 +54,6 @@
                 <p>Created on: <br> {{commission.created_on}}</p>
                 <p>Updated on: <br> {{commission.updated_on}}</p>
             </div>
-            <div class="detail-entry">
-                <p> COMMENTS: </p>
-                {% for comment in comments %}
-                    <div class="detail-entry">
-                    <p>{{comment.entry}}</p>
-                    <li>Created on: {{comment.created_on}}</li>
-                    <li>Updated on: {{comment.updated_on}}</li>
-                    <br>
-                    </div>
-                {% endfor %}
-            </div>
         </div>
     </div>
 {% endblock %}
