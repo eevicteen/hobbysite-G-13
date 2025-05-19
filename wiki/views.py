@@ -32,7 +32,7 @@ class ArticleListView(ListView):
         if user.is_authenticated:
             user_articles = Article.objects.filter(author=user.profile)
             all_articles = {
-                category.name: category.articles.exclude(author=user.profile) for category in categories
+                category: category.articles.exclude(author=user.profile) for category in categories
             }
 
             context['user_articles'] = user_articles
